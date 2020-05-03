@@ -12,6 +12,16 @@ public class Reunion
     String room;
     String participants;
 
+    public Reunion(long id, String reunionAvatar, String aboutReunion, String day, String hour, String room, String participants) {
+        this.id = id;
+        this.reunionAvatar = reunionAvatar;
+        this.aboutReunion = aboutReunion;
+        this.day = day;
+        this.hour = hour;
+        this.room = room;
+        this.participants = participants;
+    }
+
     public long getId() {
         return id;
     }
