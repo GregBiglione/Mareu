@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.greg.mareu.R;
 
-public class ListReunionActivity extends AppCompatActivity {
+public class RecyclerView extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_reunion);
+        setContentView(R.layout.activity_recycler_view);
     }
 }
