@@ -3,6 +3,7 @@ package com.greg.mareu.reunion_list;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,7 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.greg.mareu.R;
+import com.greg.mareu.events.DeleteReunionEvent;
 import com.greg.mareu.model.Reunion;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -46,7 +50,14 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
         holder.mRoom.setText(reunion.getRoom());
         holder.mDay.setText(reunion.getDay());
         holder.mHour.setText(reunion.getHour());
-        holder.mParticipants.setText(reunion.getParticipants());
+
+        holder.mDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                EventBus.getDefault().post(new DeleteReunionEvent(reunion));
+            }
+        });
     }
 
     @Override
@@ -67,8 +78,8 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
         TextView mHour;
         @BindView(R.id.reunion_day)
         TextView mDay;
-        @BindView(R.id.reunion_participants)
-        TextView mParticipants;
+        @BindView(R.id.delete_button)
+        ImageButton mDelete;
 
 
         public ViewHolder(View itemView)

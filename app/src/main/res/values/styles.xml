@@ -8,9 +8,23 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="dash_style">
-        <item name="android:layout_marginRight">2dp</item>
-        <item name="android:layout_marginLeft">2dp</item>
+    <style name="dash_style_line_one">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+    </style>
+
+    <style name="line_one">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="dash_style_line_two">
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
     </style>
 
 </resources>

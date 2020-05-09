@@ -24,8 +24,8 @@
         app:layout_constraintTop_toTopOf="@+id/reunion_image"
         app:layout_constraintBottom_toBottomOf="@id/reunion_image"
         app:layout_constraintStart_toEndOf="@id/reunion_image"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp">
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -36,57 +36,49 @@
                 android:id="@+id/reunion_about"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fabriquer un sabre laser"/>
+                style="@style/line_one"/>
 
             <TextView
                 android:id="@+id/dash_one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/dash_style"
-                android:text="@string/dash"/>
+                style="@style/dash_style_line_one"
+                android:text="@string/dash"
+                />
 
             <TextView
                 android:id="@+id/reunion_room"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Salle sagittaire"/>
+                android:ellipsize="end"
+                android:singleLine="true"
+                style="@style/line_one"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/reunion_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/dash_two"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/dash_style"
-                android:text="@string/dash"/>
-
-            <TextView
-                android:id="@+id/reunion_day"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="23 juillet 2020"/>
-
-            <TextView
-                android:id="@+id/dash_three"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dash"/>
+                android:text="@string/dash"
+                style="@style/dash_style_line_two"/>
 
             <TextView
                 android:id="@+id/reunion_hour"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="14h30"/>
-
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/reunion_participants"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="vishnu@gmail, xolotl@gmail.com, huitzilopoctli@gmail.com"
-            />
 
 
     </LinearLayout>
