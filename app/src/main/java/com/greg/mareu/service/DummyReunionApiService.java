@@ -28,4 +28,14 @@ public class DummyReunionApiService implements ReunionApiService
     {
         reunions.remove(reunion);
     }
+
+    /**
+     * Create a reunion
+     */
+
+    @Override
+    public void createReunion(Reunion reunion)
+    {
+        reunions.add(reunion);
+    }
 }

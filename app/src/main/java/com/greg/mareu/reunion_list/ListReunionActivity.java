@@ -1,7 +1,5 @@
 package com.greg.mareu.reunion_list;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,9 +20,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class ListReunionActivity extends AppCompatActivity
-{
+public class ListReunionActivity extends AppCompatActivity {
+
     private List<Reunion> mReunion;
     private ReunionApiService mApiService;
     @BindView(R.id.recycler_view)
@@ -32,8 +31,7 @@ public class ListReunionActivity extends AppCompatActivity
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler_view);
         mApiService = DI.getReunionApiService();
@@ -41,11 +39,9 @@ public class ListReunionActivity extends AppCompatActivity
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         initList();
-
     }
 
-    private void initList()
-    {
+    private void initList() {
         mReunion = mApiService.getReunions();
         mRecyclerView.setAdapter(new ReunionRecyclerViewAdapter(mReunion));
     }
@@ -67,9 +63,11 @@ public class ListReunionActivity extends AppCompatActivity
      */
 
     @Subscribe
-    public void onDeleteReunion(DeleteReunionEvent event)
-    {
+    public void onDeleteReunion(DeleteReunionEvent event) {
         mApiService.deleteReunion(event.reunion);
         initList();
     }
+
+    @OnClick(R.id.add_reunion)
+    void addReunion(){AddReunionActivity.navigate(this);}
 }

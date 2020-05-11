@@ -18,6 +18,6 @@ public class DI
 
     public static ReunionApiService getNewInstanceApiService()
     {
-        return  service;
+        return new DummyReunionApiService();
     }
 }

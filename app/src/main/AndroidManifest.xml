@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.greg.mareu">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -11,6 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".reunion_list.AddReunionActivity"
+            android:parentActivityName=".reunion_list.ListReunionActivity">
+        </activity>
         <activity android:name=".reunion_list.ListReunionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

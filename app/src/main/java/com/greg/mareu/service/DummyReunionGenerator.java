@@ -11,9 +11,9 @@ public abstract class DummyReunionGenerator
    public static List<Reunion> DUMMY_REUNION = Arrays.asList(
            new Reunion(1, "https://www.lithotherapie.net/wp-content/uploads/2010/03/nettoyage_purification_pierres_cristaux_lithotherapie.jpg","La lithothérapie","15 mai 2020", "14h30", "Salle Lion", "ares@gmail.com, horus@gmail.com, poseidon@gmail.com"),
            new Reunion(2, "https://wallpapercave.com/wp/wc1676091.jpg","Le Milan AC","17 mai 2020", "9h30", "Salle Capricorne", "seth@gmail, osiris@gmail.com, zeus@gmail.com"),
-           new Reunion(3, "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/San_Francisco_49ers_logo.svg/1200px-San_Francisco_49ers_logo.svg.png","Les 49ers","19 mai 2020", "16h", "salle Cancer", "dionysos@gmail, hermes@gmail.com, ganesh@gmail.com"),
+           new Reunion(3, "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/San_Francisco_49ers_logo.svg/1200px-San_Francisco_49ers_logo.svg.png","Les 49ers","19 mai 2020", "16h", "Salle Cancer", "dionysos@gmail, hermes@gmail.com, ganesh@gmail.com"),
            new Reunion(4, "https://yournexttireblogdotcom1.files.wordpress.com/2016/02/anaheim-ducks-logo-700.png","Les Ducks d'Anaheim","23 mai 2020", "15h30", "Salle Gémeaux", "shiva@gmail, cali@gmail.com, baastet@gmail.com"),
-           new Reunion(5, "https://upload.wikimedia.org/wikipedia/commons/2/22/KBryant8.jpg","Les Lakers","30 ami 2020", "11h30", "Salle Taureau", "quetzacoatl@gmail, gibil@gmail.com, marduk@gmail.com"),
+           new Reunion(5, "https://upload.wikimedia.org/wikipedia/commons/2/22/KBryant8.jpg","Les Lakers","30 mai 2020", "11h30", "Salle Taureau", "quetzacoatl@gmail, gibil@gmail.com, marduk@gmail.com"),
            new Reunion(6, "https://1d4chan.org/images/9/9b/Solid_Snake_codec.png","Solid Snake","3 juin 2020", "13h30", "Salle Vierge", "wi@gmail, athena@gmail.com, hades@gmail.com"),
            new Reunion(7, "https://vignette.wikia.nocookie.net/walkingdead/images/7/74/TWD_Season_10_poster.jpg/revision/latest?cb=20190720160224","The walking Dead","5 juin 2020", "8h", "Salle Verseau", "inyan@gmail, anubis@gmail.com, khnoum@gmail.com"),
            new Reunion(8, "https://assets1.ignimgs.com/2015/03/11/vvunnamedjpg-52a841_1280w.jpg","Vikings","8 juin 2020", "11h30", "Salle Sagittaire", "thor@gmail, odin@gmail.com, loki@gmail.com"),

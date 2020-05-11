@@ -18,4 +18,11 @@ public interface ReunionApiService
      */
 
     void deleteReunion(Reunion reunion);
+
+    /**
+     *  Create a reunion
+     * @param reunion
+     */
+
+    void createReunion(Reunion reunion);
 }

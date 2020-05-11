@@ -54,4 +54,6 @@ dependencies {
     // EventBus
     implementation 'org.greenrobot:eventbus:3.2.0'
 
+    // FloatingActionButton
+    implementation 'com.google.android.material:material:1.1.0'
 }

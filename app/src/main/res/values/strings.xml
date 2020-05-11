@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Ma réu</string>
     <string name="dash">-</string>
+    <string name="about">About reunion</string>
+    <string name="participants">participants@lamzone.com</string>
+    <string name="save">Save</string>
 </resources>
