@@ -7,7 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputLayout;
@@ -21,13 +25,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class AddReunionActivity extends AppCompatActivity
-{
+public class AddReunionActivity extends AppCompatActivity{
+
     @BindView(R.id.addImage) CircleImageView image;
     @BindView(R.id.addAboutLyt) TextInputLayout aboutInput;
     @BindView(R.id.addDayLyt) TextInputLayout dayInput;
     @BindView(R.id.addHourLyt) TextInputLayout hourInput;
-    @BindView(R.id.addRoomLyt) TextInputLayout roomInput;
+    @BindView(R.id.spinnerRoom) Spinner spinner;
     @BindView(R.id.addParticipantsLyt) TextInputLayout participantsInput;
     @BindView(R.id.create) Button addButton;
 
@@ -40,6 +44,15 @@ public class AddReunionActivity extends AppCompatActivity
         setContentView(R.layout.activity_add_reunion);
         ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.room_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {}
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
         mApiService = DI.getReunionApiService();
         init();
     }
@@ -65,7 +78,8 @@ public class AddReunionActivity extends AppCompatActivity
                 aboutInput.getEditText().getText().toString(),
                 dayInput.getEditText().getText().toString(),
                 hourInput.getEditText().getText().toString(),
-                roomInput.getEditText().getText().toString(),
+                //String.valueOf(spinner.getSelectedItem()),
+                spinner.getSelectedItem().toString(),
                 participantsInput.getEditText().getText().toString()
         );
         mApiService.createReunion(reunion);
@@ -87,6 +101,4 @@ public class AddReunionActivity extends AppCompatActivity
         Intent i = new Intent(listReunionActivity, AddReunionActivity.class);
         ActivityCompat.startActivity(listReunionActivity, i, null);
     }
-
-
 }

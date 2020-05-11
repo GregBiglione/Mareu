@@ -69,19 +69,11 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/addRoomLyt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/addRoom"
+                <Spinner
+                    android:id="@+id/spinnerRoom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginTop="20dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/addParticipantsLyt"

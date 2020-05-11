@@ -4,4 +4,18 @@
     <string name="about">About reunion</string>
     <string name="participants">participants@lamzone.com</string>
     <string name="save">Save</string>
+
+    <string-array name="room_array">
+        <item></item>
+        <item>Salle Bélier</item>
+        <item>Salle Cancer</item>
+        <item>Salle Capricorne</item>
+        <item>Salle Gémeaux</item>
+        <item>Salle Lion</item>
+        <item>Salle Poisson</item>
+        <item>Salle Sagittaire</item>
+        <item>Salle Taureau</item>
+        <item>Salle Verseau</item>
+        <item>Salle Vierge</item>
+    </string-array>
 </resources>
