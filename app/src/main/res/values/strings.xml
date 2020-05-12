@@ -4,6 +4,7 @@
     <string name="about">About reunion</string>
     <string name="participants">participants@lamzone.com</string>
     <string name="save">Save</string>
+    <string name="date">Sélectionner une date</string>
 
     <string-array name="room_array">
         <item></item>

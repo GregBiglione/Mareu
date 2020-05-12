@@ -41,6 +41,13 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <Button
+                android:id="@+id/dateReunion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/date"
+                android:layout_marginTop="20dp"/>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/addDayLyt"
                 android:layout_width="match_parent"
@@ -48,12 +55,15 @@
                 android:layout_marginTop="20dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/addDay"
+                    android:id="@+id/datePicked"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="date"/>
 
             </com.google.android.material.textfield.TextInputLayout>
+
+
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/addHourLyt"
