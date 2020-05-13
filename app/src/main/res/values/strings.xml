@@ -2,7 +2,7 @@
     <string name="app_name">Ma réu</string>
     <string name="dash">-</string>
     <string name="about">About reunion</string>
-    <string name="participants">participants@lamzone.com</string>
+    <string name="participants">Sélectionner les participants</string>
     <string name="save">Save</string>
     <string name="date">Sélectionner une date</string>
     <string name="hour">Sélectionner une heure</string>
@@ -19,5 +19,67 @@
         <item>Salle Taureau</item>
         <item>Salle Verseau</item>
         <item>Salle Vierge</item>
+    </string-array>
+
+    <string-array name="participants_array">
+        <item>adad@lamzone.com </item>
+        <item>anubis@lamzone.com </item>
+        <item>api@lamzone.com</item>
+        <item>ares@lamzone.com </item>
+        <item>artemis@lamzone.com</item>
+        <item>athena@lamzone.com</item>
+        <item>baastet@lamzone.com</item>
+        <item>baldr@lamzone.com</item>
+        <item>brahma@lamzone.com</item>
+        <item>cernunnos@lamzone.com</item>
+        <item>cronos@lamzone.com</item>
+        <item>dag@lamzone.com</item>
+        <item>dionysos@lamzone.com</item>
+        <item>esus@lamzone.com</item>
+        <item>freya@lamzone.com</item>
+        <item>ganesh@lamzone.com</item>
+        <item>geb@lamzone.com</item>
+        <item>gibil@lamzone.com</item>
+        <item>hachiman@lamzone.com</item>
+        <item>hades@lamzone.com</item>
+        <item>hanuman@lamzone.com</item>
+        <item>helios@lamzone.com</item>
+        <item>hera@lamzone.com</item>
+        <item>hermes@lamzone.com</item>
+        <item>horus@lamzone.com</item>
+        <item>huitzilopoctli@lamzone.com</item>
+        <item>inyan@lamzone.com</item>
+        <item>ishtar@lamzone.com</item>
+        <item>jupiter@lamzone.com</item>
+        <item>kali@lamzone.com</item>
+        <item>khnoum@lamzone.com</item>
+        <item>loki@lamzone.com</item>
+        <item>marduk@lamzone.com</item>
+        <item>mars@lamzone.com</item>
+        <item>mictlantecuhtli@lamzone.com</item>
+        <item>nout@lamzone.com</item>
+        <item>odin@lamzone.com</item>
+        <item>osiris@lamzone.com</item>
+        <item>parvati@lamzone.com</item>
+        <item>poseidon@lamzone.com</item>
+        <item>quetzacoatl@lamzone.com</item>
+        <item>ra@lamzone.com</item>
+        <item>sekhmet@lamzone.com</item>
+        <item>seth@lamzone.com</item>
+        <item>sin@lamzone.com</item>
+        <item>shiva@lamzone.com</item>
+        <item>skan@lamzone.com</item>
+        <item>sobek@lamzone.com</item>
+        <item>tangaroa@lamzone.com</item>
+        <item>taouret@lamzone.com</item>
+        <item>tawhiri@lamzone.com</item>
+        <item>thor@lamzone.com</item>
+        <item>toth@lamzone.com</item>
+        <item>uzume@lamzone.com</item>
+        <item>vishnu@lamzone.com</item>
+        <item>watatsumi@lamzone.com</item>
+        <item>wi@lamzone.com</item>
+        <item>xolotl@lamzone.com</item>
+        <item>zeus@lamzone.com </item>
     </string-array>
 </resources>

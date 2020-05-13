@@ -3,8 +3,10 @@ package com.greg.mareu.reunion_list;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -26,6 +28,7 @@ import com.greg.mareu.model.Reunion;
 import com.greg.mareu.service.ReunionApiService;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -47,14 +50,22 @@ public class AddReunionActivity extends AppCompatActivity{
     @BindView(R.id.hourReunion) Button hourButton;
 
     @BindView(R.id.spinnerRoom) Spinner spinner;
+
+    @BindView(R.id.addParticipantsButton) Button mAddParticipantsButton;
     @BindView(R.id.addParticipantsLyt) TextInputLayout participantsInput;
+    @BindView(R.id.addParticipants) TextInputEditText mParticipantsEditText;
     @BindView(R.id.create) Button addButton;
 
     private String mRandomImage;
     private ReunionApiService mApiService;
 
+    String[] listOfParticipants;
+    boolean[] checkedParticipants;
+    ArrayList<Integer> mUserParticipants = new ArrayList<>();
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_reunion);
         ButterKnife.bind(this);
@@ -83,6 +94,72 @@ public class AddReunionActivity extends AppCompatActivity{
                pickHour();
            }
        });
+
+       listOfParticipants = getResources().getStringArray(R.array.participants_array);
+       checkedParticipants = new boolean[listOfParticipants.length];
+       mAddParticipantsButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v)
+           {
+               AlertDialog.Builder mBuilder = new AlertDialog.Builder(AddReunionActivity.this);
+               mBuilder.setTitle("Liste des participants");
+               mBuilder.setMultiChoiceItems(listOfParticipants, checkedParticipants, new DialogInterface.OnMultiChoiceClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialog, int position, boolean isChecked)
+                   {
+                        if (isChecked){
+                            if (!mUserParticipants.contains(position))
+                            {
+                                mUserParticipants.add(position);
+                            }
+                            else
+                            {
+                                mUserParticipants.remove(position);
+                            }
+                        }
+                   }
+               });
+
+               mBuilder.setCancelable(false);
+               mBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialog, int which) {
+                       String item = "";
+                       for (int i = 0; i< mUserParticipants.size(); i++)
+                       {
+                            item = item + listOfParticipants[mUserParticipants.get(i)];
+                            if (i != mUserParticipants.size() - 1)
+                            {
+                                item = item + ", ";
+                            }
+                       }
+                       mParticipantsEditText.setText(item);
+                   }
+               });
+
+               mBuilder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialog, int which)
+                   {
+                        dialog.dismiss();
+                   }
+               });
+               mBuilder.setNeutralButton("Tout effacer", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialog, int which) {
+                        for(int i =0; i < checkedParticipants.length; i++)
+                        {
+                            checkedParticipants[i] = false;
+                            mUserParticipants.clear();
+                            mParticipantsEditText.setText("");
+                        }
+                   }
+               });
+               AlertDialog mAlertDialog = mBuilder.create();
+               mAlertDialog.show();
+           }
+       });
+
         mApiService = DI.getReunionApiService();
         init();
     }
