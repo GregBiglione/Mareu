@@ -2,9 +2,9 @@ package com.greg.mareu.reunion_list;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.DialogFragment;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,9 +15,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.greg.mareu.R;
 import com.greg.mareu.di.DI;
@@ -32,14 +33,19 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class AddReunionActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class AddReunionActivity extends AppCompatActivity{
 
     @BindView(R.id.addImage) CircleImageView image;
     @BindView(R.id.addAboutLyt) TextInputLayout aboutInput;
+
     @BindView(R.id.addDayLyt) TextInputLayout dayInput;
-    @BindView(R.id.datePicked) TextView day;
-    @BindView(R.id.dateReunion) Button date;
+    @BindView(R.id.datePicked) TextInputEditText dayEditText;
+    @BindView(R.id.dateReunion) Button dateButton;
+
     @BindView(R.id.addHourLyt) TextInputLayout hourInput;
+    @BindView(R.id.hourPicked) TextInputEditText hourEditText;
+    @BindView(R.id.hourReunion) Button hourButton;
+
     @BindView(R.id.spinnerRoom) Spinner spinner;
     @BindView(R.id.addParticipantsLyt) TextInputLayout participantsInput;
     @BindView(R.id.create) Button addButton;
@@ -64,25 +70,65 @@ public class AddReunionActivity extends AppCompatActivity implements DatePickerD
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        date.setOnClickListener(new View.OnClickListener() {
+        dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment datePicker = new DatePickerFragment();
-                datePicker.show(getSupportFragmentManager(), "Date picker");
+                pickDate();
             }
         });
+
+       hourButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               pickHour();
+           }
+       });
         mApiService = DI.getReunionApiService();
         init();
     }
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+    /**
+     * Date picker generate calendar to pick a date
+     */
+
+    public void pickDate()
+    {
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
-        day.setText(currentDate);
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                Calendar c = Calendar.getInstance();
+                c.set(Calendar.YEAR, year);
+                c.set(Calendar.MONTH, month);
+                c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+                dayEditText.setText(currentDate);
+            }
+        }, year, month, day);
+        datePickerDialog.show();
+    }
+
+    /**
+     * Time picker generate a clock to pick an hour
+     */
+
+    public void pickHour(){
+        Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR);
+        int minute = c.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                String currentHour = hourOfDay + "h" + minute;
+                hourEditText.setText(currentHour);
+            }
+        },hour, minute, true);
+        timePickerDialog.show();
     }
 
     public void init() {
@@ -104,7 +150,6 @@ public class AddReunionActivity extends AppCompatActivity implements DatePickerD
                 System.currentTimeMillis(),
                 mRandomImage,
                 aboutInput.getEditText().getText().toString(),
-                //dayInput.getEditText().getText().toString(),
                 dayInput.getEditText().getText().toString(),
                 hourInput.getEditText().getText().toString(),
                 //String.valueOf(spinner.getSelectedItem()),

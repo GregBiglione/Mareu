@@ -41,18 +41,18 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/dateReunion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/date"
-                android:layout_marginTop="20dp"/>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/addDayLyt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp">
+
+                <Button
+                    android:id="@+id/dateReunion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/date"
+                    android:layout_marginTop="20dp"/>
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/datePicked"
@@ -64,18 +64,24 @@
 
 
 
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/addHourLyt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/addHour"
+                <Button
+                    android:id="@+id/hourReunion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="datetime"/>
+                    android:text="@string/hour"
+                    android:layout_marginTop="20dp"/>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/hourPicked"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="time"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
