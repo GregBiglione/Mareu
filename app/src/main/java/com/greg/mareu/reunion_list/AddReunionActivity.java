@@ -38,23 +38,23 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AddReunionActivity extends AppCompatActivity{
 
-    @BindView(R.id.addImage) CircleImageView image;
-    @BindView(R.id.addAboutLyt) TextInputLayout aboutInput;
+    @BindView(R.id.addImage) CircleImageView mImage;
+    @BindView(R.id.addAboutLyt) TextInputLayout mAboutInput;
 
-    @BindView(R.id.addDayLyt) TextInputLayout dayInput;
-    @BindView(R.id.datePicked) TextInputEditText dayEditText;
-    @BindView(R.id.dateReunion) Button dateButton;
+    @BindView(R.id.addDayLyt) TextInputLayout mDayInput;
+    @BindView(R.id.datePicked) TextInputEditText mDayEditText;
+    @BindView(R.id.dateReunion) Button mDateButton;
 
-    @BindView(R.id.addHourLyt) TextInputLayout hourInput;
-    @BindView(R.id.hourPicked) TextInputEditText hourEditText;
-    @BindView(R.id.hourReunion) Button hourButton;
+    @BindView(R.id.addHourLyt) TextInputLayout mHourInput;
+    @BindView(R.id.hourPicked) TextInputEditText mHourEditText;
+    @BindView(R.id.hourReunion) Button mHourButton;
 
-    @BindView(R.id.spinnerRoom) Spinner spinner;
+    @BindView(R.id.spinnerRoom) Spinner mSpinner;
 
     @BindView(R.id.addParticipantsButton) Button mAddParticipantsButton;
-    @BindView(R.id.addParticipantsLyt) TextInputLayout participantsInput;
+    @BindView(R.id.addParticipantsLyt) TextInputLayout mParticipantsInput;
     @BindView(R.id.addParticipants) TextInputEditText mParticipantsEditText;
-    @BindView(R.id.create) Button addButton;
+    @BindView(R.id.create) Button mAddButton;
 
     private String mRandomImage;
     private ReunionApiService mApiService;
@@ -71,24 +71,34 @@ public class AddReunionActivity extends AppCompatActivity{
         ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //aboutInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        //    @Override
+        //    public void onFocusChange(View v, boolean hasFocus) {
+        //        if(!hasFocus)
+        //        {
+        //
+        //        }
+        //    }
+        //});
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.room_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mSpinner.setAdapter(adapter);
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {}
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        dateButton.setOnClickListener(new View.OnClickListener() {
+        mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pickDate();
             }
         });
 
-       hourButton.setOnClickListener(new View.OnClickListener() {
+       mHourButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
                pickHour();
@@ -112,10 +122,10 @@ public class AddReunionActivity extends AppCompatActivity{
                             {
                                 mUserParticipants.add(position);
                             }
-                            else
-                            {
-                                mUserParticipants.remove(position);
-                            }
+                        }
+                        else if(mUserParticipants.contains(position))
+                        {
+                            mUserParticipants.remove(mUserParticipants.indexOf(position));
                         }
                    }
                });
@@ -159,7 +169,6 @@ public class AddReunionActivity extends AppCompatActivity{
                mAlertDialog.show();
            }
        });
-
         mApiService = DI.getReunionApiService();
         init();
     }
@@ -183,7 +192,7 @@ public class AddReunionActivity extends AppCompatActivity{
                 c.set(Calendar.MONTH, month);
                 c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
-                dayEditText.setText(currentDate);
+                mDayEditText.setText(currentDate);
             }
         }, year, month, day);
         datePickerDialog.show();
@@ -201,8 +210,17 @@ public class AddReunionActivity extends AppCompatActivity{
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                String currentHour = hourOfDay + "h" + minute;
-                hourEditText.setText(currentHour);
+                String minuteString = "";
+                if(minute < 10)
+                {
+                    minuteString = "0" + minute;
+                }
+                else
+                {
+                    minuteString = "" + minute;
+                }
+                String currentHour = hourOfDay + "h" + minuteString;
+                mHourEditText.setText(currentHour);
             }
         },hour, minute, true);
         timePickerDialog.show();
@@ -210,14 +228,14 @@ public class AddReunionActivity extends AppCompatActivity{
 
     public void init() {
         mRandomImage = randomImage();
-        Glide.with(this).load(mRandomImage).into(image);
-        aboutInput.getEditText().addTextChangedListener(new TextWatcher() {
+        Glide.with(this).load(mRandomImage).into(mImage);
+        mAboutInput.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override
-            public void afterTextChanged(Editable s) { addButton.setEnabled(s.length() > 0);}
+            public void afterTextChanged(Editable s) { mAddButton.setEnabled(s.length() > 0);}
         });
     }
 
@@ -226,12 +244,12 @@ public class AddReunionActivity extends AppCompatActivity{
         Reunion reunion = new Reunion(
                 System.currentTimeMillis(),
                 mRandomImage,
-                aboutInput.getEditText().getText().toString(),
-                dayInput.getEditText().getText().toString(),
-                hourInput.getEditText().getText().toString(),
+                mAboutInput.getEditText().getText().toString(),
+                mDayInput.getEditText().getText().toString(),
+                mHourInput.getEditText().getText().toString(),
                 //String.valueOf(spinner.getSelectedItem()),
-                spinner.getSelectedItem().toString(),
-                participantsInput.getEditText().getText().toString()
+                mSpinner.getSelectedItem().toString(),
+                mParticipantsInput.getEditText().getText().toString()
         );
         mApiService.createReunion(reunion);
         finish();

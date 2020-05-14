@@ -5,11 +5,14 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.greg.mareu.R;
 import com.greg.mareu.di.DI;
+import com.greg.mareu.dialog_box.ParticipantsListDialog;
 import com.greg.mareu.events.DeleteReunionEvent;
+import com.greg.mareu.events.ParticipantsListEvent;
 import com.greg.mareu.model.Reunion;
 import com.greg.mareu.service.ReunionApiService;
 
@@ -66,6 +69,16 @@ public class ListReunionActivity extends AppCompatActivity {
     public void onDeleteReunion(DeleteReunionEvent event) {
         mApiService.deleteReunion(event.reunion);
         initList();
+    }
+
+    @Subscribe
+    public void onParticipantsList(ParticipantsListEvent event){
+        openParticipantsDialog(event.reunion);
+    }
+
+    public void openParticipantsDialog(Reunion reunion){
+        ParticipantsListDialog participantsListDialog = new ParticipantsListDialog(reunion);
+        participantsListDialog.show(getSupportFragmentManager(), "exemple");
     }
 
     @OnClick(R.id.add_reunion)
