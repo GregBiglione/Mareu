@@ -81,9 +81,10 @@ public class AddReunionActivity extends AppCompatActivity{
         mAboutEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus)
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if(!hasFocus)
                 {
-                    closeKeyboard();
+                    imm.hideSoftInputFromWindow(mAboutEditText.getWindowToken(), 0);
                 }
             }
         });
@@ -93,7 +94,12 @@ public class AddReunionActivity extends AppCompatActivity{
         mSpinner.setAdapter(adapter);
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {}
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (parent.getItemAtPosition(position).equals("Sélectionner une salle"))
+                {
+                    // Afficher message d'erreur du spinner
+                }
+            }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
@@ -264,9 +270,9 @@ public class AddReunionActivity extends AppCompatActivity{
 
     @OnClick(R.id.create)
     void addReunion(View view){
-        if (mAboutEditText.length() < 3)
+        if (mAboutEditText.length() < 3 || mAboutEditText.length() > 30)
         {
-            mAboutEditText.setError("Enter un titre (3 caratères minimum)");
+            mAboutEditText.setError("Enter un titre (3-30 caratères)");
             mAboutEditText.requestFocus();
             return;
         }
