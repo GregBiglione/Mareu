@@ -1,5 +1,6 @@
 package com.greg.mareu.reunion_list;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,6 +8,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.greg.mareu.R;
 import com.greg.mareu.di.DI;
@@ -29,8 +35,7 @@ public class ListReunionActivity extends AppCompatActivity {
 
     private List<Reunion> mReunion;
     private ReunionApiService mApiService;
-    @BindView(R.id.recycler_view)
-    RecyclerView mRecyclerView;
+    @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
 
 
     @Override
@@ -83,4 +88,24 @@ public class ListReunionActivity extends AppCompatActivity {
 
     @OnClick(R.id.add_reunion)
     void addReunion(){AddReunionActivity.navigate(this);}
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.filter_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.by_date:
+                Toast.makeText(this, "Clic sur filtre par date", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.by_room:
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

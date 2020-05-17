@@ -27,6 +27,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.greg.mareu.R;
 import com.greg.mareu.di.DI;
+import com.greg.mareu.dialog_box.DateAndHourPick;
 import com.greg.mareu.model.Reunion;
 //import com.greg.mareu.picker.Pick;
 import com.greg.mareu.service.ReunionApiService;
@@ -64,7 +65,7 @@ public class AddReunionActivity extends AppCompatActivity{
 
     private String mRandomImage;
     private ReunionApiService mApiService;
-    //private Pick mPick;
+    //private DateAndHourPick mPick;
 
     String[] listOfParticipants;
     boolean[] checkedParticipants;
@@ -104,10 +105,11 @@ public class AddReunionActivity extends AppCompatActivity{
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
+        //mPick = ;
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //mPick.pickDate();
+                //mPick.pickDate(mDayEditText);
                 pickDate();
             }
         });
@@ -115,7 +117,7 @@ public class AddReunionActivity extends AppCompatActivity{
        mHourButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               //mPick.pickHour();
+               //Pick.pickHour();
                pickHour();
            }
        });
@@ -239,20 +241,6 @@ public class AddReunionActivity extends AppCompatActivity{
             }
         },hour, minute, true);
         timePickerDialog.show();
-    }
-
-    /**
-     * Close keyboard
-     */
-
-    public void closeKeyboard()
-    {
-        View view = this.getCurrentFocus();
-        if (view != null)
-        {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
     }
 
     public void init() {

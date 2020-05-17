@@ -59,4 +59,12 @@ dependencies {
 
     // Custom Toast
     implementation 'com.github.GrenderG:Toasty:1.4.2'
+
+    // Harmcrest unit test
+    testImplementation 'org.hamcrest:java-hamcrest:2.0.0.0'
+
+    // Instrumented Test
+    implementation "androidx.test:runner:1.2.0"
+    implementation "androidx.test:rules:1.2.0"
+    implementation "androidx.test.espresso:espresso-contrib:3.2.0"
 }

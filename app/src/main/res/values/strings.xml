@@ -6,6 +6,9 @@
     <string name="save">Save</string>
     <string name="date">Sélectionner une date</string>
     <string name="hour">Sélectionner une heure</string>
+    <string name="main_menu">Main menu</string>
+    <string name="by_date">Par date</string>
+    <string name="by_room">Par salle</string>
 
     <string-array name="room_array">
         <item>Sélectionner une salle</item>

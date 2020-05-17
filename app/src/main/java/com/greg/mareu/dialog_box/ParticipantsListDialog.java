@@ -20,8 +20,6 @@ public class ParticipantsListDialog extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        //String participants = getIntent().getStringExtra
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Liste des participants à la réunion sur " + r.getAboutReunion())
                 .setMessage(r.getParticipants())
