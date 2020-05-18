@@ -1,25 +1,41 @@
 package com.greg.mareu;
 
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.test.espresso.ViewAssertion;
-import androidx.test.espresso.assertion.ViewAssertions;
-import androidx.test.espresso.matcher.ViewMatchers;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
+
+import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
 import com.greg.mareu.di.DI;
 import com.greg.mareu.reunion_list.ListReunionActivity;
 import com.greg.mareu.service.ReunionApiService;
+import com.greg.mareu.utils.DeleteViewAction;
 
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
+import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.hasMinimumChildCount;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static com.greg.mareu.utils.RecyclerViewItemCountAssertion.withItemCount;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.*;
 
@@ -32,6 +48,7 @@ import static org.junit.Assert.*;
 public class ReunionListInstrumentedTest {
 
     private static int ITEMS_COUNT = 15;
+    private static int ITEMS_COUNT_AFTER_DELETE_TEST = 14;
     private int mPosition = 1;
 
     private ListReunionActivity mListActivity;
@@ -53,17 +70,105 @@ public class ReunionListInstrumentedTest {
                 .check(matches(hasMinimumChildCount(1)));
     }
 
-    /*@Test
+    @Test
     public void reunionList_deleteAction_shouldRemoveOneItem(){
         //Count items
         onView(withId(R.id.recycler_view))
                 .check(withItemCount(ITEMS_COUNT));
         //Delete an item
         onView(withId(R.id.recycler_view))
-                .perform();
+                .perform(actionOnItemAtPosition(mPosition, new DeleteViewAction()));
         //Count after remove
         onView(withId(R.id.recycler_view))
                 .check(withItemCount(ITEMS_COUNT-1));
-    }*/
+    }
+
+    @Test
+    public void addReunion_and_check_ifContainOneMoreElement_afterAdd(){
+
+        //COUNT ITEMS
+        onView(withId(R.id.recycler_view))
+                .check(withItemCount(ITEMS_COUNT_AFTER_DELETE_TEST));
+
+        //ADD ITEM
+        //Click on add button
+        onView(withId(R.id.add_reunion))
+                .perform(click());
+
+        //Write Miaou on editText
+        onView(withId(R.id.addAbout))
+                .perform(typeText("Miaou"), closeSoftKeyboard());
+
+        //Click on select a date button
+        onView(withId(R.id.dateReunion))
+                .perform(click());
+
+        //DatePicker shown, need to define it
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
+                .perform(PickerActions.setDate(2020, 5, 20));
+
+        //Click on "ok" button in the DatePicker
+        onView(withId(android.R.id.button1))
+                .perform(click());
+
+        //Click on select an hour
+        onView(withId(R.id.hourReunion))
+                .perform(click());
+
+        //HourPicker shown, need to define it
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
+                .perform(PickerActions.setTime(13, 45));
+
+        //Click on "ok" button in the TimePicker
+        onView(withId(android.R.id.button1))
+                .perform(click());
+
+        //Click on spinner
+        onView(withId(R.id.spinnerRoom))
+                .perform(scrollTo(), click());
+
+        //Select item at position #5 and click it
+        onData(allOf(is(instanceOf(String.class))))
+                .atPosition(5)
+                .perform(click());
+
+
+        //Click on select participants
+        onView(withId(R.id.addParticipantsButton))
+                .perform(scrollTo(), click()); //test ok jusqu'ici
+
+        //Items selection
+        onData(anything()).atPosition(2).atPosition(5).atPosition(9)
+                .perform(click());
+
+        //Click on "ok" button
+        onView(withText("Ok"))
+                .perform(click());
+
+        //Click on validation button
+        onView(withId(R.id.create))
+                .perform(scrollTo(), click());
+
+        // CHECK IF LIST CONTAIN ONE MORE ITEM AFTER ADD
+
+        //COUNT AFTER ADD
+        onView(withId(R.id.recycler_view))
+                .check(withItemCount(ITEMS_COUNT_AFTER_DELETE_TEST+1));
+    }
+
+    @Test
+    public void checkParticipantsList_isDisplayed_onClick_onAReunion_andQuitItClickingOnOk(){
+        //Click on an item
+        onView(withId(R.id.recycler_view))
+                .perform(actionOnItemAtPosition(mPosition, click()));
+
+        //Check if Dialog box is displayed
+        onView(withText("Ok"))
+                .check(matches(isDisplayed()));
+
+        //Quit clicking on "Ok"
+        onView(withId(android.R.id.button1))
+                .perform(click());
+    }
 
 }

@@ -27,9 +27,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.greg.mareu.R;
 import com.greg.mareu.di.DI;
-import com.greg.mareu.dialog_box.DateAndHourPick;
 import com.greg.mareu.model.Reunion;
 //import com.greg.mareu.picker.Pick;
+import com.greg.mareu.picker.Pick;
 import com.greg.mareu.service.ReunionApiService;
 
 import java.text.DateFormat;
@@ -65,7 +65,7 @@ public class AddReunionActivity extends AppCompatActivity{
 
     private String mRandomImage;
     private ReunionApiService mApiService;
-    //private DateAndHourPick mPick;
+    private Pick mPick;
 
     String[] listOfParticipants;
     boolean[] checkedParticipants;
@@ -105,7 +105,7 @@ public class AddReunionActivity extends AppCompatActivity{
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        //mPick = ;
+        //mPick = Pick;
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -262,25 +262,21 @@ public class AddReunionActivity extends AppCompatActivity{
         {
             mAboutEditText.setError("Enter un titre (3-30 caratères)");
             mAboutEditText.requestFocus();
-            return;
         }
         if (mDayEditText.length() == 0)
         {
             mDayEditText.setError("Sélectionner une date");
             mDayEditText.requestFocus();
-            return;
         }
         if (mHourEditText.length() == 0)
         {
             mHourEditText.setError("Sélectionner une heure");
             mHourEditText.requestFocus();
-            return;
         }
         if(mParticipantsEditText.length() == 0) //modifier si position 0 dans le spinner renvoyer setError
         {
             mParticipantsEditText.setError("Sélectionner au moins 1 participant");
             mParticipantsEditText.requestFocus();
-            return;
         }
         else{
             Reunion reunion = new Reunion(
