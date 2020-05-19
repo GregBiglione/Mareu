@@ -84,7 +84,8 @@
                 android:id="@+id/a"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/a"/>
+                android:text="@string/a"
+                style="@style/dash_style_line_two"/>
 
             <TextView
                 android:id="@+id/endReunion"

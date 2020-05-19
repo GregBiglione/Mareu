@@ -49,18 +49,15 @@ public class AddReunionActivity extends AppCompatActivity{
     @BindView(R.id.addAbout) TextInputEditText mAboutEditText;
 
     @BindView(R.id.addDayLyt) TextInputLayout mDayInput;
-    @BindView(R.id.dateEdit) TextInputEditText mDayEditText; // à suppr si appel à mPick.pickDate();
-    @BindView(R.id.addDateReunion) Button mDateButton;
+    @BindView(R.id.addDateEdit) TextInputEditText mDayEditText; // à suppr si appel à mPick.pickDate();
 
     @BindView(R.id.addStartHourLyt) TextInputLayout mStartInput;
-    @BindView(R.id.startTimeEdit) TextInputEditText mStartHourEditText; // à suppr si appel à mPick.pickHour();
+    @BindView(R.id.addStartTimeEdit) TextInputEditText mStartHourEditText; // à suppr si appel à mPick.pickHour();
     @BindView(R.id.addEndHourLyt) TextInputLayout mEndInput;
-    @BindView(R.id.endTimeEdit) TextInputEditText mEndHourEditText;
-    @BindView(R.id.addHourReunion) Button mHourButton;
+    @BindView(R.id.addEndTimeEdit) TextInputEditText mEndHourEditText;
 
     @BindView(R.id.spinnerRoom) Spinner mSpinner;
 
-    @BindView(R.id.addParticipantsButton) Button mAddParticipantsButton;
     @BindView(R.id.addParticipantsLyt) TextInputLayout mParticipantsInput;
     @BindView(R.id.addParticipantsEdit) TextInputEditText mParticipantsEditText;
     @BindView(R.id.create) Button mAddButton;
@@ -108,25 +105,35 @@ public class AddReunionActivity extends AppCompatActivity{
         });
 
         //mPick = Pick;
-        mDateButton.setOnClickListener(new View.OnClickListener() {
+        mDayEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //mPick.pickDate(mDayEditText);
+               // mPick.pickDate(mDayEditText);
                 pickDate();
             }
         });
 
-       mHourButton.setOnClickListener(new View.OnClickListener() {
+       mStartHourEditText.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               //Pick.pickHour();
+               //mPick.pickHour();
                pickHour();
+
            }
        });
 
+        mEndHourEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //mPick.pickHour();
+                pickHour();
+
+            }
+        });
+
        listOfParticipants = getResources().getStringArray(R.array.participants_array);
        checkedParticipants = new boolean[listOfParticipants.length];
-       mAddParticipantsButton.setOnClickListener(new View.OnClickListener() {
+       mParticipantsEditText.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v)
            {
@@ -246,16 +253,12 @@ public class AddReunionActivity extends AppCompatActivity{
                 {
                     minuteString = "" + minute;
                 }
-                String currentStartHour = hourOfDay + "h" + minuteString;
+                String currentHour = hourOfDay + "h" + minuteString;
                 //Gérer le clic sur un bouton qui doit remplir 2 edit text
                 // Gérer que date de fin ne peut pas être < date de début
-                mStartHourEditText.setText(currentStartHour);
-                if (mEndHourEditText.length() == 0) //date dbut devient date de fin et inversemeent
-                {
-                    pickHour();
-                    String currentEndHour = hourOfDay + "h" + minuteString;
-                    mEndHourEditText.setText(currentEndHour);
-                }
+                mStartHourEditText.setText(currentHour);
+                //si mStart clicked ajout Start hour if mEnd clicked ajout end hour
+                //switch ?
             }
         },hour, minute, true);
         timePickerDialog.show();

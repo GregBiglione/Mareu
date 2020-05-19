@@ -38,8 +38,8 @@
                     android:hint="@string/about"
                     android:inputType="text"
                     android:drawableStart="@drawable/ic_create_black_24dp"
-                    android:nextFocusDown="@id/addDateReunion"
-                    android:background="@drawable/edit_text"/>
+                    android:background="@drawable/edit_text"
+                    android:nextFocusDown="@id/addDateEdit"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -49,27 +49,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp">
 
-                <Button
-                    android:id="@+id/addDateReunion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/date"
-                    android:layout_marginTop="20dp"
-                    android:focusable="true"
-                    android:nextFocusDown="@id/addHourReunion"
-                    android:background="@drawable/button"/>
-
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/dateEdit"
+                    android:id="@+id/addDateEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="@string/select_date"
                     android:inputType="date"
                     android:drawableStart="@drawable/ic_date_range_black_24dp"
                     android:background="@drawable/edit_text"
-                    android:focusable="false"/>
+                    android:nextFocusDown="@id/addStartTimeEdit"/>
 
             </com.google.android.material.textfield.TextInputLayout>
-
 
             <LinearLayout
                 android:id="@+id/mainHourLayout"
@@ -79,7 +69,7 @@
 
                <LinearLayout
                    android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
+                   android:layout_height="0dp"
                    android:orientation="horizontal"
                    android:layout_weight="1">
 
@@ -91,14 +81,15 @@
                        android:layout_weight="0.5">
 
                        <com.google.android.material.textfield.TextInputEditText
-                           android:id="@+id/startTimeEdit"
+                           android:id="@+id/addStartTimeEdit"
                            android:layout_width="match_parent"
                            android:layout_height="wrap_content"
+                           android:hint="@string/start_hour"
                            android:inputType="time"
                            android:drawableStart="@drawable/ic_hour_black_24dp"
                            android:background="@drawable/edit_text"
-                           android:focusable="false"
-                           style="@style/ml"/>
+                           style="@style/ml"
+                           android:nextFocusDown="@id/addEndTimeEdit"/>
 
                    </com.google.android.material.textfield.TextInputLayout>
 
@@ -110,88 +101,28 @@
                        android:layout_weight="0.5">
 
                        <com.google.android.material.textfield.TextInputEditText
-                           android:id="@+id/endTimeEdit"
+                           android:id="@+id/addEndTimeEdit"
                            android:layout_width="match_parent"
                            android:layout_height="wrap_content"
+                           android:hint="@string/end_hour"
                            android:inputType="time"
                            android:drawableStart="@drawable/ic_hour_black_24dp"
                            android:background="@drawable/edit_text"
-                           android:focusable="false"
-                           style="@style/mr"/>
+                           style="@style/mr"
+                           android:nextFocusDown="@+id/spinnerRoom"/>
 
                    </com.google.android.material.textfield.TextInputLayout>
                </LinearLayout>
 
-                <Button
-                    android:id="@+id/addHourReunion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/hour"
-                    android:layout_marginTop="20dp"
-                    android:focusable="true"
-                    android:nextFocusDown="@id/spinnerRoom"
-                    android:background="@drawable/button"/>
-
             </LinearLayout>
-
-            <!--<com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/addHourLyt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
-
-                <LinearLayout
-                    android:id="@+id/startAndEndTimeLyt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_weight="1">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/startTimeEdit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:inputType="time"
-                        android:drawableStart="@drawable/ic_hour_black_24dp"
-                        android:background="@drawable/edit_text"
-                        android:focusable="false"
-                        style="@style/ml"
-                        android:layout_weight="0.5"/>
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/endTimeEdit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:inputType="time"
-                        android:drawableStart="@drawable/ic_hour_black_24dp"
-                        android:background="@drawable/edit_text"
-                        android:focusable="false"
-                        style="@style/mr"
-                        android:layout_weight="0.5"/>
-
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/addHourReunion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/hour"
-                    android:layout_marginTop="20dp"
-                    android:focusable="true"
-                    android:nextFocusDown="@id/spinnerRoom"
-                    android:background="@drawable/button"/>
-
-
-            </com.google.android.material.textfield.TextInputLayout>-->
 
                 <Spinner
                     android:id="@+id/spinnerRoom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:nextFocusDown="@id/addParticipantsButton"
                     android:background="@drawable/edit_text"
-                    />
+                    android:nextFocusDown="@id/addParticipantsEdit"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/addParticipantsLyt"
@@ -199,23 +130,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp">
 
-                <Button
+               <!-- <Button
                     android:id="@+id/addParticipantsButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/participants"
                     android:layout_marginTop="20dp"
                     android:nextFocusDown="@id/create"
-                    android:background="@drawable/button"/>
+                    android:background="@drawable/button"/>-->
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/addParticipantsEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
+                    android:hint="@string/participants"
+                    android:inputType="text"
                     android:minLines="1"
                     android:maxLines="20"
-                    android:focusable="false"
                     android:drawableStart="@drawable/ic_group_add_black_24dp"
                     android:background="@drawable/edit_text"
                     android:drawablePadding="5dp"
