@@ -49,18 +49,20 @@ public class AddReunionActivity extends AppCompatActivity{
     @BindView(R.id.addAbout) TextInputEditText mAboutEditText;
 
     @BindView(R.id.addDayLyt) TextInputLayout mDayInput;
-    @BindView(R.id.datePicked) TextInputEditText mDayEditText; // à suppr si appel à mPick.pickDate();
-    @BindView(R.id.dateReunion) Button mDateButton;
+    @BindView(R.id.dateEdit) TextInputEditText mDayEditText; // à suppr si appel à mPick.pickDate();
+    @BindView(R.id.addDateReunion) Button mDateButton;
 
-    @BindView(R.id.addHourLyt) TextInputLayout mHourInput;
-    @BindView(R.id.hourPicked) TextInputEditText mHourEditText; // à suppr si appel à mPick.pickHour();
-    @BindView(R.id.hourReunion) Button mHourButton;
+    @BindView(R.id.addStartHourLyt) TextInputLayout mStartInput;
+    @BindView(R.id.startTimeEdit) TextInputEditText mStartHourEditText; // à suppr si appel à mPick.pickHour();
+    @BindView(R.id.addEndHourLyt) TextInputLayout mEndInput;
+    @BindView(R.id.endTimeEdit) TextInputEditText mEndHourEditText;
+    @BindView(R.id.addHourReunion) Button mHourButton;
 
     @BindView(R.id.spinnerRoom) Spinner mSpinner;
 
     @BindView(R.id.addParticipantsButton) Button mAddParticipantsButton;
     @BindView(R.id.addParticipantsLyt) TextInputLayout mParticipantsInput;
-    @BindView(R.id.addParticipants) TextInputEditText mParticipantsEditText;
+    @BindView(R.id.addParticipantsEdit) TextInputEditText mParticipantsEditText;
     @BindView(R.id.create) Button mAddButton;
 
     private String mRandomImage;
@@ -98,7 +100,7 @@ public class AddReunionActivity extends AppCompatActivity{
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent.getItemAtPosition(position).equals("Sélectionner une salle"))
                 {
-                    // Afficher message d'erreur du spinner
+                    //Message d'erreur
                 }
             }
             @Override
@@ -200,6 +202,7 @@ public class AddReunionActivity extends AppCompatActivity{
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
+        String dateOfToday = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -208,7 +211,14 @@ public class AddReunionActivity extends AppCompatActivity{
                 c.set(Calendar.YEAR, year);
                 c.set(Calendar.MONTH, month);
                 c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
                 String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+                //IL FAUT DES NOMBRES DANS UN IF
+                //if (dateOfToday < currentDate)
+                //{
+                //    mDayEditText.setError("");
+                //}
+                //else
                 mDayEditText.setText(currentDate);
             }
         }, year, month, day);
@@ -236,8 +246,16 @@ public class AddReunionActivity extends AppCompatActivity{
                 {
                     minuteString = "" + minute;
                 }
-                String currentHour = hourOfDay + "h" + minuteString;
-                mHourEditText.setText(currentHour);
+                String currentStartHour = hourOfDay + "h" + minuteString;
+                //Gérer le clic sur un bouton qui doit remplir 2 edit text
+                // Gérer que date de fin ne peut pas être < date de début
+                mStartHourEditText.setText(currentStartHour);
+                if (mEndHourEditText.length() == 0) //date dbut devient date de fin et inversemeent
+                {
+                    pickHour();
+                    String currentEndHour = hourOfDay + "h" + minuteString;
+                    mEndHourEditText.setText(currentEndHour);
+                }
             }
         },hour, minute, true);
         timePickerDialog.show();
@@ -268,10 +286,10 @@ public class AddReunionActivity extends AppCompatActivity{
             mDayEditText.setError("Sélectionner une date");
             mDayEditText.requestFocus();
         }
-        if (mHourEditText.length() == 0)
+        if (mStartHourEditText.length() == 0 || mEndHourEditText.length() == 0)
         {
-            mHourEditText.setError("Sélectionner une heure");
-            mHourEditText.requestFocus();
+            mStartHourEditText.setError("Sélectionner une heure de début et de fin");
+            mStartHourEditText.requestFocus();
         }
         if(mParticipantsEditText.length() == 0) //modifier si position 0 dans le spinner renvoyer setError
         {
@@ -284,7 +302,8 @@ public class AddReunionActivity extends AppCompatActivity{
                     mRandomImage,
                     mAboutInput.getEditText().getText().toString().trim(),
                     mDayInput.getEditText().getText().toString().trim(),
-                    mHourInput.getEditText().getText().toString().trim(),
+                    mStartInput.getEditText().getText().toString().trim(),
+                    mEndInput.getEditText().getText().toString().trim(),
                     //String.valueOf(spinner.getSelectedItem()),
                     mSpinner.getSelectedItem().toString(),
                     mParticipantsInput.getEditText().getText().toString().trim()

@@ -8,16 +8,18 @@ public class Reunion
     String reunionAvatar;
     String aboutReunion;
     String day;
-    String hour;
+    String startTime;
+    String endTime;
     String room;
     String participants;
 
-    public Reunion(long id, String reunionAvatar, String aboutReunion, String day, String hour, String room, String participants) {
+    public Reunion(long id, String reunionAvatar, String aboutReunion, String day, String startTime, String endTime, String room, String participants) {
         this.id = id;
         this.reunionAvatar = reunionAvatar;
         this.aboutReunion = aboutReunion;
         this.day = day;
-        this.hour = hour;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.room = room;
         this.participants = participants;
     }
@@ -54,12 +56,20 @@ public class Reunion
         this.day = day;
     }
 
-    public String getHour() {
-        return hour;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setHour(String hour) {
-        this.hour = hour;
+    public void setStartTime(String hour) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     public String getRoom() {

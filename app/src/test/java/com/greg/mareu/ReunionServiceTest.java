@@ -49,10 +49,11 @@ public class ReunionServiceTest {
         String reunionAvatar = "https://placeimg.com/640/480/any" + System.currentTimeMillis();
         String aboutReunion = "Miaou";
         String day = "jeudi 22 juillet 2054";
-        String hour = "13h44";
+        String startTime = "13h44";
+        String endTime = "13h44";
         String room = "Salle Lion";
         String participants = "seth@lamzone.com, baastet@lamazone.com, zeus@lamzone.com";
-        Reunion reunionToAdd = new Reunion(id, reunionAvatar, aboutReunion, day, hour, room, participants);
+        Reunion reunionToAdd = new Reunion(id, reunionAvatar, aboutReunion, day, startTime, endTime, room, participants);
         service.createReunion(reunionToAdd);
         assertTrue(service.getReunions().contains(reunionToAdd));
     }

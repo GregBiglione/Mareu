@@ -9,6 +9,7 @@
     <string name="main_menu">Main menu</string>
     <string name="by_date">Par date</string>
     <string name="by_room">Par salle</string>
+    <string name="a">à</string>
 
     <string-array name="room_array">
         <item>Sélectionner une salle</item>

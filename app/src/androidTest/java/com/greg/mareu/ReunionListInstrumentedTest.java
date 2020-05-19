@@ -100,7 +100,7 @@ public class ReunionListInstrumentedTest {
                 .perform(typeText("Miaou"), closeSoftKeyboard());
 
         //Click on select a date button
-        onView(withId(R.id.dateReunion))
+        onView(withId(R.id.addDateReunion))
                 .perform(click());
 
         //DatePicker shown, need to define it
@@ -111,13 +111,21 @@ public class ReunionListInstrumentedTest {
         onView(withId(android.R.id.button1))
                 .perform(click());
 
-        //Click on select an hour
-        onView(withId(R.id.hourReunion))
+        //Click on select a hour
+        onView(withId(R.id.addHourReunion))
                 .perform(click());
 
-        //HourPicker shown, need to define it
+        //HourPicker shown, need to define a beginning hour
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
                 .perform(PickerActions.setTime(13, 45));
+
+        //Click on "ok" button in the TimePicker
+        onView(withId(android.R.id.button1))
+                .perform(click());
+
+        //HourPicker shown, need to define a finish hour
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
+                .perform(PickerActions.setTime(14, 45));
 
         //Click on "ok" button in the TimePicker
         onView(withId(android.R.id.button1))

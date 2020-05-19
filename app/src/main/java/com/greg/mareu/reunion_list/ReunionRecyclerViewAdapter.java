@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -52,7 +53,8 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
         holder.mAbout.setText(reunion.getAboutReunion());
         holder.mRoom.setText(reunion.getRoom());
         holder.mDay.setText(reunion.getDay());
-        holder.mHour.setText(reunion.getHour());
+        holder.mStartHour.setText(reunion.getStartTime());
+        holder.mEndHour.setText(reunion.getEndTime());
 
         holder.mDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,10 +83,12 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
         @BindView(R.id.reunion_image) ImageView mImage;
         @BindView(R.id.reunion_about) TextView mAbout;
         @BindView(R.id.reunion_room) TextView mRoom;
-        @BindView(R.id.reunion_hour) TextView mHour;
+        @BindView(R.id.startReunion) TextView mStartHour;
+        @BindView(R.id.endReunion) TextView mEndHour;
         @BindView(R.id.reunion_day) TextView mDay;
         @BindView(R.id.delete_button) ImageButton mDelete;
-        @BindView(R.id.openParticipantsList) ConstraintLayout mOpenParticipantsListButton;
+        //@BindView(R.id.openParticipantsList) ConstraintLayout mOpenParticipantsListButton;
+        @BindView(R.id.openParticipantsList) RelativeLayout mOpenParticipantsListButton;
 
 
         public ViewHolder(View itemView)
