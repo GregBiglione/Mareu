@@ -96,14 +96,7 @@ public class ListReunionActivity extends AppCompatActivity{
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.by_date:
-                Toast.makeText(this, "Clic sur filtre par date", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.by_room:
-                break;
 
-        }
         return super.onOptionsItemSelected(item);
     }
 }

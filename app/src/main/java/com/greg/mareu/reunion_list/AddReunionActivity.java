@@ -2,7 +2,6 @@ package com.greg.mareu.reunion_list;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.DialogFragment;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -19,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -29,7 +27,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.greg.mareu.R;
 import com.greg.mareu.di.DI;
-import com.greg.mareu.dialog_box.DateAndTimePickerFragment;
 import com.greg.mareu.model.Reunion;
 //import com.greg.mareu.picker.Pick;
 import com.greg.mareu.picker.Pick;
@@ -47,7 +44,7 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
 
-public class AddReunionActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener
+public class AddReunionActivity extends AppCompatActivity
 {
     @BindView(R.id.addImage) CircleImageView mImage;
     @BindView(R.id.addAboutLyt) TextInputLayout mAboutInput;
@@ -70,6 +67,8 @@ public class AddReunionActivity extends AppCompatActivity implements DatePickerD
     private String mRandomImage;
     private ReunionApiService mApiService;
     private Pick mPick;
+    private Date startDate;
+    private Date endDate;
 
     String[] listOfParticipants;
     boolean[] checkedParticipants;
@@ -113,20 +112,11 @@ public class AddReunionActivity extends AppCompatActivity implements DatePickerD
         mDayEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // mPick.pickDate(mDayEditText);
-                pickDate();
+               Pick.pickDate(mDayEditText, AddReunionActivity.this);
+                //pickDate();
             }
         });
 
-        //PICK DATE FROM DATAE&TIME//////////////////////////////////////////////////////////////////////////////////////////////
-        //mDayEditText.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-        //    public void onClick(View v) {
-        //        DialogFragment datePicker = new DateAndTimePickerFragment();
-        //        datePicker.show(getSupportFragmentManager(), "Date picker");
-        //    }
-        //});
-        //PickDate dans AddReunionActivity
        mStartHourEditText.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -139,6 +129,7 @@ public class AddReunionActivity extends AppCompatActivity implements DatePickerD
         mEndHourEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 //mPick.pickHour();
                 pickHour();
 
@@ -146,13 +137,6 @@ public class AddReunionActivity extends AppCompatActivity implements DatePickerD
         });
 
        //PICK HOUR FROM DATAE&TIME///////////////////////////////////////////////////////////////////////////////////////
-       //mStartHourEditText.setOnClickListener(new View.OnClickListener() {
-       //    @Override
-       //    public void onClick(View v) {
-       //         DialogFragment timePicker = new DateAndTimePickerFragment();
-       //         timePicker.show(getSupportFragmentManager(), "Time picker");
-       //    }
-       //});
 
        listOfParticipants = getResources().getStringArray(R.array.participants_array);
        checkedParticipants = new boolean[listOfParticipants.length];
@@ -222,42 +206,6 @@ public class AddReunionActivity extends AppCompatActivity implements DatePickerD
         init();
     }
 
-    /**
-     * Date picker generate calendar to pick a date
-     */
-
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
-        mDayEditText.setText(currentDate);
-    }
-
-    /**
-     * Time picker generate a clock to pick an hour
-     */
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        String minuteString = "";
-        if(minute < 10)
-        {
-            minuteString = "0" + minute;
-        }
-        else
-        {
-            minuteString = "" + minute;
-        }
-        String currentHour = hourOfDay + "h" + minuteString;
-        mStartHourEditText.setText(currentHour);
-    }
-
-    /**
-     * Date picker generate calendar to pick a date
-     */
-
     public void pickDate()
     {
         Calendar c = Calendar.getInstance();
@@ -297,13 +245,18 @@ public class AddReunionActivity extends AppCompatActivity implements DatePickerD
      */
 
     public void pickHour(){
-        Calendar c = Calendar.getInstance();
-        int hour = c.get(Calendar.HOUR);
-        int minute = c.get(Calendar.MINUTE);
+        Calendar cStart = Calendar.getInstance();
+        int hour = cStart.get(Calendar.HOUR);
+        int minute = cStart.get(Calendar.MINUTE);
+
+        Calendar cEnd = Calendar.getInstance();
+        int hourEnd = cEnd.get(Calendar.HOUR);
+        int minuteEnd = cEnd.get(Calendar.MINUTE);
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute)
+            {
                 String minuteString = "";
                 if(minute < 10)
                 {
@@ -313,23 +266,26 @@ public class AddReunionActivity extends AppCompatActivity implements DatePickerD
                 {
                     minuteString = "" + minute;
                 }
+
                 String pickedHour = hourOfDay + "h" + minuteString;
 
                 if (mStartHourEditText.hasFocus())
                 {
+                    SimpleDateFormat stf = new SimpleDateFormat("MM/dd/yyyy:HH:mm");
                     mStartHourEditText.setText(pickedHour);
+                    Calendar cStart = Calendar.getInstance();
+                    cStart.set(Calendar.HOUR, hourOfDay);
+                    cStart.set(Calendar.MINUTE, minute);
+                    startDate = cStart.getTime();
                 }
-                else if (mEndHourEditText.hasFocus())
-                {
+                else if (mEndHourEditText.hasFocus()) {
 
-                    //Comparaison des heures et interdiction heure de début > heures de fin
-                    //test 1
-                    SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("hh:mm");
-                    String startHour = hourOfDay + ":" + minuteString;
-                    String simpleStartHour = mSimpleDateFormat.format(c.getTime()); //if non exec pb ligne
-                    String simpleEndHour = mSimpleDateFormat.format(c.getTime());//if non exec pb ligne
+                    Calendar cEnd = Calendar.getInstance();
+                    cEnd.set(Calendar.HOUR, hourOfDay);
+                    cEnd.set(Calendar.MINUTE, minute);
+                    endDate = cEnd.getTime();
 
-                    if (pickedHour.compareTo(pickedHour) < 0)
+                    if (cEnd.before(cStart))
                     {
                         mEndHourEditText.setError("Heure de fin incorrecte");
                     }
@@ -338,9 +294,7 @@ public class AddReunionActivity extends AppCompatActivity implements DatePickerD
                         mEndHourEditText.setText(pickedHour);
                     }
                 }
-
-
-                }
+            }
         },hour, minute, true);
         timePickerDialog.show();
     }
@@ -360,6 +314,7 @@ public class AddReunionActivity extends AppCompatActivity implements DatePickerD
 
     @OnClick(R.id.create)
     void addReunion(View view){
+
         //Version courte
         //switch (view.getId()){
         //    case R.id.addAbout:

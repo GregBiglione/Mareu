@@ -28,7 +28,9 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.hasMinimumChildCount;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withChild;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.greg.mareu.utils.RecyclerViewItemCountAssertion.withItemCount;
@@ -84,6 +86,19 @@ public class ReunionListInstrumentedTest {
     }
 
     @Test
+    public void add()
+    {
+        onView(withId(R.id.add_reunion))
+                .perform(click());
+        onView(withId(R.id.addAbout))
+                .perform(typeText("F"), closeSoftKeyboard(), scrollTo());
+        onView(withId(R.id.create))
+                .perform(click());
+        onView(withId(R.id.add_reunion));
+               // .check(matches()); //setError text
+    }
+
+    @Test
     public void addReunion_and_check_ifContainOneMoreElement_afterAdd(){
 
         //COUNT ITEMS
@@ -97,65 +112,66 @@ public class ReunionListInstrumentedTest {
 
         //Write Miaou on editText
         onView(withId(R.id.addAbout))
-                .perform(typeText("Miaou"), closeSoftKeyboard());
+                .perform(typeText("Miaou"), closeSoftKeyboard())
+                .perform(scrollTo());
 
         //Click on select a date button
-        onView(withId(R.id.addDateEdit))
-                .perform(click())
-                 .perform(click());//double clic ?
+        onView(allOf(withId(R.id.addDateEdit)))
+                .perform(click()); //ok jusqu'ici
+                //.perform(click()); // mettre 2 click ou un doucke clic sinon le datepicker ne s'affiche pas
 
         //DatePicker shown, need to define it
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
-                .perform(PickerActions.setDate(2020, 5, 20));
+        //onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
+        //        .perform(PickerActions.setDate(2020, 6, 4));
 
         //Click on "ok" button in the DatePicker
-         onView(withId(android.R.id.button1))
-                .perform(click());
+       //onView(withId(android.R.id.button1))
+       //       .perform(click());
 
-         //Select a start hour
-         onView(withId(R.id.addStartTimeEdit))
-                 .perform(scrollTo(),click())
-                 .perform(click()); //double clic ?
+       ////Select a start hour
+       //onView(withId(R.id.addStartTimeEdit))
+       //        .perform(scrollTo(),click())
+       //        .perform(click()); //double clic ?
 
-         //HourPicker shown, need to define a beginning hour
-         onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
-                 .perform(PickerActions.setTime(13, 45));
+       ////HourPicker shown, need to define a beginning hour
+       //onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
+       //        .perform(PickerActions.setTime(13, 45)); // met 8h45 par défaut
 
-         //Click on "ok" button in the TimePicker
-         onView(withId(android.R.id.button1))
-                 .perform(click());
+       ////Click on "ok" button in the TimePicker
+       //onView(withId(android.R.id.button1))
+       //        .perform(click());
 
-        ////Select a start hour
-        onView(withId(R.id.addEndTimeEdit))
-                .perform(scrollTo(),click())
-                .perform(click()); //double clic ?
+       /////Select a start hour
+       //onView(withId(R.id.addEndTimeEdit))
+       //       .perform(scrollTo(),click())
+       //       .perform(click()); //double clic ?
 
-         //HourPicker shown, need to define a finish hour
-         onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
-                 .perform(PickerActions.setTime(14, 45));
+       ////HourPicker shown, need to define a finish hour
+       //onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
+       //        .perform(PickerActions.setTime(17, 45)); //met 8h45 par défaut
 
-         //Click on "ok" button in the TimePicker
-         onView(withId(android.R.id.button1))
-                 .perform(click());
+       ////Click on "ok" button in the TimePicker
+       //onView(withId(android.R.id.button1))
+       //        .perform(click());
 
-         //Click on spinner
-         onView(withId(R.id.spinnerRoom))
-                 .perform(scrollTo(), click());
+       ////Click on spinner
+       //onView(withId(R.id.spinnerRoom))
+       //        .perform(scrollTo(), click());
 
-         //Select item at position #5 and click it
-         onData(allOf(is(instanceOf(String.class))))
-                 .atPosition(5)
-                 .perform(click());
+       ////Select item at position #5 and click it
+       //onData(allOf(is(instanceOf(String.class))))
+       //        .atPosition(5)
+       //        .perform(click());
 
-//test ok jusqu'ici
-         //Click on select participants
-         onView(withId(R.id.addParticipantsEdit))
-                 .perform(click());
+//test //k jusqu'ici
+       ////Click on select participants
+       //onView(withId(R.id.addParticipantsEdit))
+       //        .perform(scrollTo(), click());
 
-         //N'affiche pas les participants mais celle des salle
-         //Items selection
-         onData(anything()).atPosition(2).atPosition(5).atPosition(9)
-                 .perform(click());
+       ////N'affiche pas les participants mais celle des salle
+       ////Items selection
+       //onData(anything()).atPosition(2).atPosition(5).atPosition(9)
+       //         .perform(click());
 
          //Click on "ok" button
          //onView(withText("Ok"))
