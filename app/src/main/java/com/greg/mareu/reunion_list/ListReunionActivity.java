@@ -29,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ListReunionActivity extends AppCompatActivity {
+public class ListReunionActivity extends AppCompatActivity{
 
     private List<Reunion> mReunion;
     private ReunionApiService mApiService;

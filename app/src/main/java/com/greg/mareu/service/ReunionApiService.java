@@ -13,6 +13,18 @@ public interface ReunionApiService
     List<Reunion> getReunions();
 
     /**
+     * Get Reunion by date
+     */
+
+    //List<Reunion> getReunionByDate();
+
+    /**
+     * Get Reunion by room
+     */
+
+    //List<Reunion> getReunionByRoom();
+
+    /**
      * Delete a reunion
      * @param reunion
      */

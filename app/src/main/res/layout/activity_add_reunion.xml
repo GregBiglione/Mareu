@@ -130,15 +130,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp">
 
-               <!-- <Button
-                    android:id="@+id/addParticipantsButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/participants"
-                    android:layout_marginTop="20dp"
-                    android:nextFocusDown="@id/create"
-                    android:background="@drawable/button"/>-->
-
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/addParticipantsEdit"
                     android:layout_width="match_parent"
