@@ -108,35 +108,26 @@ public class AddReunionActivity extends AppCompatActivity
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        //PickDate dans AddReunionActivity/////////////////////////////////////////////////////////////////////////////////////////
         mDayEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                Pick.pickDate(mDayEditText, AddReunionActivity.this);
-                //pickDate();
             }
         });
 
        mStartHourEditText.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               //mPick.pickHour();
-               pickHour();
-
+               Pick.pickHour(mStartHourEditText, mEndHourEditText ,AddReunionActivity.this);
            }
        });
 
         mEndHourEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //mPick.pickHour();
-                pickHour();
-
+                Pick.pickHour(mStartHourEditText, mEndHourEditText, AddReunionActivity.this);
             }
         });
-
-       //PICK HOUR FROM DATAE&TIME///////////////////////////////////////////////////////////////////////////////////////
 
        listOfParticipants = getResources().getStringArray(R.array.participants_array);
        checkedParticipants = new boolean[listOfParticipants.length];
@@ -204,99 +195,6 @@ public class AddReunionActivity extends AppCompatActivity
        });
         mApiService = DI.getReunionApiService();
         init();
-    }
-
-    public void pickDate()
-    {
-        Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                Calendar cPicked = Calendar.getInstance();
-                cPicked.set(Calendar.YEAR, year);
-                cPicked.set(Calendar.MONTH, month);
-                cPicked.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                String pickedDate = DateFormat.getDateInstance(DateFormat.FULL).format(cPicked.getTime());
-
-                //Comparer les dates et interdire les dates dans le passé
-                SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-                String getSimpleToday = mSimpleDateFormat.format(c.getTime());
-                String getSimplePicked = mSimpleDateFormat.format(cPicked.getTime());
-                if (getSimplePicked.compareTo(getSimpleToday) < 0)
-                {
-                    mDayEditText.setError("Impossible de choisir une date antérieure à aujourd'hui");
-                }
-                else
-                {
-                    mDayEditText.setText(pickedDate);
-                }
-            }
-        }, year, month, day);
-        datePickerDialog.show();
-    }
-
-    /**
-     * Time picker generate a clock to pick an hour
-     */
-
-    public void pickHour(){
-        Calendar cStart = Calendar.getInstance();
-        int hour = cStart.get(Calendar.HOUR);
-        int minute = cStart.get(Calendar.MINUTE);
-
-        Calendar cEnd = Calendar.getInstance();
-        int hourEnd = cEnd.get(Calendar.HOUR);
-        int minuteEnd = cEnd.get(Calendar.MINUTE);
-
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute)
-            {
-                String minuteString = "";
-                if(minute < 10)
-                {
-                    minuteString = "0" + minute;
-                }
-                else
-                {
-                    minuteString = "" + minute;
-                }
-
-                String pickedHour = hourOfDay + "h" + minuteString;
-
-                if (mStartHourEditText.hasFocus())
-                {
-                    SimpleDateFormat stf = new SimpleDateFormat("MM/dd/yyyy:HH:mm");
-                    mStartHourEditText.setText(pickedHour);
-                    Calendar cStart = Calendar.getInstance();
-                    cStart.set(Calendar.HOUR, hourOfDay);
-                    cStart.set(Calendar.MINUTE, minute);
-                    startDate = cStart.getTime();
-                }
-                else if (mEndHourEditText.hasFocus()) {
-
-                    Calendar cEnd = Calendar.getInstance();
-                    cEnd.set(Calendar.HOUR, hourOfDay);
-                    cEnd.set(Calendar.MINUTE, minute);
-                    endDate = cEnd.getTime();
-
-                    if (cEnd.before(cStart))
-                    {
-                        mEndHourEditText.setError("Heure de fin incorrecte");
-                    }
-                    else
-                    {
-                        mEndHourEditText.setText(pickedHour);
-                    }
-                }
-            }
-        },hour, minute, true);
-        timePickerDialog.show();
     }
 
     public void init() {

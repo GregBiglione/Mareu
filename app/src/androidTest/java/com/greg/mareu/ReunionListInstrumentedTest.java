@@ -92,10 +92,8 @@ public class ReunionListInstrumentedTest {
                 .perform(click());
         onView(withId(R.id.addAbout))
                 .perform(typeText("F"), closeSoftKeyboard(), scrollTo());
-        onView(withId(R.id.create))
-                .perform(click());
-        onView(withId(R.id.add_reunion));
-               // .check(matches()); //setError text
+        onView(withId(R.id.create));
+               // .perform(click());
     }
 
     @Test
