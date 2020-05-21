@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".reunion_list.AddReunionActivity">
 
     <ScrollView
@@ -47,7 +48,8 @@
                 android:id="@+id/addDayLyt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="20dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/addDateEdit"
@@ -56,7 +58,6 @@
                     android:hint="@string/select_date"
                     android:inputType="date"
                     android:drawableStart="@drawable/ic_date_range_black_24dp"
-                    android:background="@drawable/edit_text"
                     android:nextFocusDown="@id/addStartTimeEdit"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -78,7 +79,8 @@
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_marginTop="20dp"
-                       android:layout_weight="0.5">
+                       android:layout_weight="0.5"
+                       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                        <com.google.android.material.textfield.TextInputEditText
                            android:id="@+id/addStartTimeEdit"
@@ -87,7 +89,6 @@
                            android:hint="@string/start_hour"
                            android:inputType="time"
                            android:drawableStart="@drawable/ic_hour_black_24dp"
-                           android:background="@drawable/edit_text"
                            style="@style/ml"
                            android:nextFocusDown="@id/addEndTimeEdit"/>
 
@@ -98,7 +99,8 @@
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_marginTop="20dp"
-                       android:layout_weight="0.5">
+                       android:layout_weight="0.5"
+                       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                        <com.google.android.material.textfield.TextInputEditText
                            android:id="@+id/addEndTimeEdit"
@@ -107,7 +109,6 @@
                            android:hint="@string/end_hour"
                            android:inputType="time"
                            android:drawableStart="@drawable/ic_hour_black_24dp"
-                           android:background="@drawable/edit_text"
                            style="@style/mr"
                            android:nextFocusDown="@+id/spinnerRoom"/>
 
@@ -121,25 +122,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/edit_text"
                     android:nextFocusDown="@id/addParticipantsEdit"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/addParticipantsLyt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="20dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/addParticipantsEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/participants"
-                    android:inputType="text"
+                    android:inputType="textEmailAddress"
                     android:minLines="1"
                     android:maxLines="20"
                     android:drawableStart="@drawable/ic_group_add_black_24dp"
-                    android:background="@drawable/edit_text"
                     android:drawablePadding="5dp"
                     android:nextFocusDown="@id/create"/>
 
@@ -155,8 +155,8 @@
                 android:enabled="false"
                 android:hint="@string/save"
                 android:textSize="18sp"
-                android:textColor="@color/white"
-                android:background="@drawable/button_save"/>
+                app:cornerRadius="20dp"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
 

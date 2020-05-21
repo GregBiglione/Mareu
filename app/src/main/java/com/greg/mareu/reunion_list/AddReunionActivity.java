@@ -9,6 +9,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -67,8 +69,6 @@ public class AddReunionActivity extends AppCompatActivity
     private String mRandomImage;
     private ReunionApiService mApiService;
     private Pick mPick;
-    private Date startDate;
-    private Date endDate;
 
     String[] listOfParticipants;
     boolean[] checkedParticipants;
@@ -102,6 +102,10 @@ public class AddReunionActivity extends AppCompatActivity
                 if (parent.getItemAtPosition(position).equals("Sélectionner une salle"))
                 {
                     //Message d'erreur
+                    TextView errorText = (TextView)mSpinner.getSelectedView();
+                    errorText.setError("anything here, just to add the icon");
+                    errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                    errorText.setText("Sélectionner unse salle");
                 }
             }
             @Override
@@ -193,6 +197,17 @@ public class AddReunionActivity extends AppCompatActivity
                mAlertDialog.show();
            }
        });
+
+       mParticipantsEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+           @Override
+           public void onFocusChange(View v, boolean hasFocus) {
+               InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+               if(hasFocus)
+               {
+                   imm.hideSoftInputFromWindow(mAboutEditText.getWindowToken(), 0);
+               }
+           }
+       });
         mApiService = DI.getReunionApiService();
         init();
     }
@@ -212,38 +227,6 @@ public class AddReunionActivity extends AppCompatActivity
 
     @OnClick(R.id.create)
     void addReunion(View view){
-
-        //Version courte
-        //switch (view.getId()){
-        //    case R.id.addAbout:
-        //        if (mAboutEditText.length() < 3 || mAboutEditText.length() > 30)
-        //        {
-        //            mAboutEditText.setError("Enter un titre (3-30 caratères)");
-        //            mAboutEditText.requestFocus();
-        //        }
-        //        break;
-        //    case R.id.addStartTimeEdit:
-        //        if (mDayEditText.length() == 0)
-        //        {
-        //            mDayEditText.setError("Sélectionner une date");
-        //            mDayEditText.requestFocus();
-        //        }
-        //        break;
-        //    case R.id.addEndTimeEdit:
-        //        if (mEndHourEditText.length() == 0)
-        //        {
-        //            mEndHourEditText.setError("Sélectionner une heure de fin");
-        //            mEndHourEditText.requestFocus();
-        //        }
-        //        break;
-        //    case R.id.addParticipantsEdit:
-        //        if(mParticipantsEditText.length() == 0) //modifier si position 0 dans le spinner renvoyer setError
-        //        {
-        //            mParticipantsEditText.setError("Sélectionner au moins 1 participant");
-        //            mParticipantsEditText.requestFocus();
-        //        }
-        //        break;
-        //}
 
         if (mAboutEditText.length() < 3 || mAboutEditText.length() > 30)
         {
