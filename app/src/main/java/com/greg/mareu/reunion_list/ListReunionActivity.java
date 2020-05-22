@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.greg.mareu.R;
 import com.greg.mareu.di.DI;
 import com.greg.mareu.dialog_box.ParticipantsListDialog;
+import com.greg.mareu.dialog_box.RoomListDialog;
 import com.greg.mareu.events.DeleteReunionEvent;
 import com.greg.mareu.events.ParticipantsListEvent;
 import com.greg.mareu.model.Reunion;
@@ -96,7 +97,12 @@ public class ListReunionActivity extends AppCompatActivity{
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
+        switch (item.getItemId()){
+            case R.id.by_room:
+                RoomListDialog roomListDialog = new RoomListDialog();
+                roomListDialog.show(getSupportFragmentManager(), "room dialog box");
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 }

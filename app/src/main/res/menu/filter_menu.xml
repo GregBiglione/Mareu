@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/main_menu"
+        android:title="@string/main_menu"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_filter_list_white_24dp">
+
+        <menu>
+            <item
+                android:id="@+id/by_date"
+                android:title="@string/by_date"
+                android:icon="@drawable/ic_date_range_black_24dp"/>
+            <item
+                android:id="@+id/by_room"
+                android:title="@string/by_room"
+                android:icon="@drawable/ic_place_black_24dp"/>
+        </menu>
+    </item>
+
+
+</menu>

@@ -101,11 +101,7 @@ public class AddReunionActivity extends AppCompatActivity
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent.getItemAtPosition(position).equals("Sélectionner une salle"))
                 {
-                    //Message d'erreur
-                    TextView errorText = (TextView)mSpinner.getSelectedView();
-                    errorText.setError("anything here, just to add the icon");
-                    errorText.setTextColor(Color.RED);//just to highlight that this is an error
-                    errorText.setText("Sélectionner unse salle");
+
                 }
             }
             @Override
@@ -198,16 +194,6 @@ public class AddReunionActivity extends AppCompatActivity
            }
        });
 
-       mParticipantsEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-           @Override
-           public void onFocusChange(View v, boolean hasFocus) {
-               InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-               if(hasFocus)
-               {
-                   imm.hideSoftInputFromWindow(mAboutEditText.getWindowToken(), 0);
-               }
-           }
-       });
         mApiService = DI.getReunionApiService();
         init();
     }

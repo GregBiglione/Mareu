@@ -92,8 +92,7 @@ public class Pick
                     cStart.set(Calendar.MINUTE, minute);
                     mStartDate = cStart.getTime();
                 }
-                else if (mEndHourEditText.hasFocus())
-                {
+                else if (mEndHourEditText.hasFocus()) {
 
                     Calendar cEnd = Calendar.getInstance();
                     cEnd.set(Calendar.HOUR, hourOfDay);
