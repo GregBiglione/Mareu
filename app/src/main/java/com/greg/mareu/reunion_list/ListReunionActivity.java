@@ -10,10 +10,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.greg.mareu.R;
 import com.greg.mareu.di.DI;
+import com.greg.mareu.dialog_box.DateDialog;
 import com.greg.mareu.dialog_box.ParticipantsListDialog;
 import com.greg.mareu.dialog_box.RoomListDialog;
 import com.greg.mareu.events.DeleteReunionEvent;
@@ -94,7 +94,6 @@ public class ListReunionActivity extends AppCompatActivity{
     @OnClick(R.id.add_reunion)
     void addReunion(){AddReunionActivity.navigate(this);}
 
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
@@ -102,6 +101,9 @@ public class ListReunionActivity extends AppCompatActivity{
                 RoomListDialog roomListDialog = new RoomListDialog();
                 roomListDialog.show(getSupportFragmentManager(), "room dialog box");
                 break;
+            case R.id.by_date:
+                DateDialog dateDialog = new DateDialog();
+                dateDialog.show(getSupportFragmentManager(), "date dialog");
         }
         return super.onOptionsItemSelected(item);
     }
