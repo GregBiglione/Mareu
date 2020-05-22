@@ -99,13 +99,18 @@ public class AddReunionActivity extends AppCompatActivity
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position).equals("Sélectionner une salle"))
-                {
-
-                }
+                //if ((parent.getSelectedItem().toString().contentEquals("Sélectionner une salle")))
+                //{
+                //    TextView errorText = (TextView)mSpinner.getSelectedView();
+                //    errorText.setError("anything here, just to add the icon"); // au niveau du clic
+                //    errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                //    errorText.setText("Salle non sélectionnée");
+                //}
             }
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
         });
 
         mDayEditText.setOnClickListener(new View.OnClickListener() {
@@ -238,6 +243,13 @@ public class AddReunionActivity extends AppCompatActivity
         {
             mEndHourEditText.setError("Sélectionner une heure de fin");
             mEndHourEditText.requestFocus();
+        }
+        if (mSpinner.getItemIdAtPosition(0) == 0)
+        {
+            TextView errorText = (TextView)mSpinner.getSelectedView();
+            errorText.setError("icon"); // au niveau du clic
+            errorText.setTextColor(Color.RED);//just to highlight that this is an error
+            errorText.setText("Salle non sélectionnée");
         }
         if(mParticipantsEditText.length() == 0) //modifier si position 0 dans le spinner renvoyer setError
         {
