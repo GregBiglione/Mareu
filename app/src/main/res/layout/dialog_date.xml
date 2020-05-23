@@ -1,46 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/dialogStartHourLyt"
-        android:layout_width="wrap_content"
+        android:id="@+id/dialogStartDateLyt"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_weight="0.5"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/dialogStartTimeEdit"
+            android:id="@+id/dialogStartDateEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/start_hour"
-            android:inputType="time"
-            android:drawableStart="@drawable/ic_hour_black_24dp"
-            style="@style/ml"
-            android:nextFocusDown="@id/addEndTimeEdit"/>
+            android:hint="@string/start_date"
+            android:inputType="date"
+            android:drawableStart="@drawable/ic_date_range_black_24dp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/dialogEndHourLyt"
-        android:layout_width="wrap_content"
+        android:id="@+id/dialogEndDateLyt"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_weight="0.5"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/dialogEndTimeEdit"
+            android:id="@+id/dialogEndDateEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/end_hour"
-            android:inputType="time"
-            android:drawableStart="@drawable/ic_hour_black_24dp"
-            style="@style/mr"
-            android:nextFocusDown="@+id/spinnerRoom"/>
+            android:hint="@string/end_date"
+            android:inputType="date"
+            android:drawableStart="@drawable/ic_date_range_black_24dp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

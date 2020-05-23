@@ -12,6 +12,8 @@
     <string name="start_hour">Heure de Début</string>
     <string name="end_hour">Heure de Fin</string>
     <string name="select_room">Sélectionner une salle</string>
+    <string name="start_date">Date de Début</string>
+    <string name="end_date">Date de Fin</string>
 
     <string-array name="room_array">
         <item>Sélectionner une salle</item>
