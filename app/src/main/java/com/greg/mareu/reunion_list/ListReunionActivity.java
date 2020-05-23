@@ -57,6 +57,8 @@ public class ListReunionActivity extends AppCompatActivity{
     private void initList() {
         mReunion = mApiService.getReunions();
         mRecyclerView.setAdapter(new ReunionRecyclerViewAdapter(mReunion));
+        //initialiser liste filtrée par room
+        //mReunion = mApiService.getReunionByRoom();
     }
 
     @Override

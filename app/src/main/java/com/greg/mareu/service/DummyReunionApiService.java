@@ -11,6 +11,7 @@ import java.util.List;
 public class DummyReunionApiService implements ReunionApiService
 {
     private List<Reunion> reunions = DummyReunionGenerator.generateReunions();
+    Spinner mSpinner;
 
     /**
      *  Get reunion list
@@ -40,20 +41,20 @@ public class DummyReunionApiService implements ReunionApiService
     /**
      *  Get reunion list filtered by room
      */
-    //@Override
-    //public List<Reunion> getReunionByRoom() {
-    //    List<Reunion> filterByRoom = new ArrayList<>();
-    //    Spinner mSpinner;
-    //    for (Reunion r : reunions)
-//
-    //    {
-    //        if (r.getRoom() == /*valeur correspondante dans le spinner*/)
-    //        {
-    //            filterByRoom.add(r);
-    //        }
-    //    }
-    //    return filterByRoom;
-    //}
+    @Override
+    public List<Reunion> getReunionByRoom() {
+        List<Reunion> filterByRoom = new ArrayList<>();
+        String roomFromSpinner = mSpinner.getSelectedItem().toString();
+        for (Reunion r : reunions)
+
+        {
+            if (r.getRoom() == roomFromSpinner)
+            {
+                filterByRoom.add(r);
+            }
+        }
+        return filterByRoom;
+    }
 
     /**
      * Delete reunion

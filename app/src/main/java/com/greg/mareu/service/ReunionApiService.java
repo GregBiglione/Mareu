@@ -22,7 +22,7 @@ public interface ReunionApiService
      * Get Reunion by room
      */
 
-    //List<Reunion> getReunionByRoom();
+    List<Reunion> getReunionByRoom();
 
     /**
      * Delete a reunion

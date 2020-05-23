@@ -36,7 +36,7 @@ public class RoomListDialog extends AppCompatDialogFragment {
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        mSpinner.getSelectedItem().toString();
                     }
                 })
                 .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
