@@ -7,7 +7,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
-public class setErrorView {
+public class SetErrorView {
     public static Matcher<View> withError(final String expected){
         return new TypeSafeMatcher<View>() {
             @Override

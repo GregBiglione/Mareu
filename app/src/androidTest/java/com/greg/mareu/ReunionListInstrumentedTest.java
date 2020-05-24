@@ -20,6 +20,7 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.doubleClick;
@@ -35,8 +36,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.greg.mareu.utils.RecyclerViewItemCountAssertion.withItemCount;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -197,19 +200,37 @@ public class ReunionListInstrumentedTest {
         onView(withId(R.id.add_reunion))
                 .perform(click());
         onView(withId(R.id.addAbout))
-                .perform(typeText("abcd"), closeSoftKeyboard());
-        onView(withId(R.id.addParticipantsEdit))
-                .perform(scrollTo(), click());
-        onView(withId(R.id.spinnerRoom))
-                .perform(scrollTo(), click());
-
-        //Select item at position #5 and click it
-        onData(allOf(is(instanceOf(String.class))))
-                .atPosition(0)
+                .perform(typeText("Miaou"), closeSoftKeyboard());
+        onView(allOf(withId(R.id.addDateEdit)))
+                .perform(doubleClick()); //ok jusqu'ici
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
+                .perform(PickerActions.setDate(2020, 6, 4));
+        onView(withId(android.R.id.button1))
                 .perform(click());
+        onView(withId(R.id.addStartTimeEdit))
+                .perform(scrollTo(), doubleClick());
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
+                .perform(PickerActions.setTime(13, 45)); // met 8h45 par défaut
+        onView(withId(android.R.id.button1))
+                .perform(click());
+        onView(withId(R.id.addEndTimeEdit))
+                .perform(scrollTo(),doubleClick());
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
+                .perform(PickerActions.setTime(17, 45)); //met 8h45 par défaut
+        onView(withId(android.R.id.button1))
+                .perform(click());
+
+        onView(withId(R.id.addParticipantsEdit))
+                .perform(scrollTo(), click())
+                .perform(click());
+        onData(anything()).atPosition(2).atPosition(5).atPosition(9)
+                .perform(click());
+        onView(withText("Ok"))
+                .perform(click());
+        ////Click on validation button
         onView(withId(R.id.create))
                 .perform(scrollTo(), click());
-        onView(withId(R.id.addParticipantsEdit))
+        onView(withId(R.id.spinnerRoom))// SEule erreur codée différemment ds autres certainement la cause du fail du test
                 .check(matches(hasErrorText("Salle non sélectionnée")));
     }
 
@@ -219,28 +240,39 @@ public class ReunionListInstrumentedTest {
         onView(withId(R.id.add_reunion))
                 .perform(click());
         onView(withId(R.id.addAbout))
-                .perform(typeText("abcd"), closeSoftKeyboard());
-        onView(withId(R.id.addParticipantsEdit))
-                .perform(scrollTo(), click());
-        //N'affiche pas les participants mais celle des salles
-        //Items selection
-        onData(anything()).atPosition(2).atPosition(5).atPosition(9)
+                .perform(typeText("Miaou"), closeSoftKeyboard());
+        onView(allOf(withId(R.id.addDateEdit)))
+                .perform(doubleClick()); //ok jusqu'ici
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
+                .perform(PickerActions.setDate(2020, 6, 4));
+        onView(withId(android.R.id.button1))
                 .perform(click());
-
-        //Click on "ok" button
-        onView(withText("Ok"))
+        onView(withId(R.id.addStartTimeEdit))
+                .perform(scrollTo(), doubleClick());
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
+                .perform(PickerActions.setTime(13, 45)); // met 8h45 par défaut
+        onView(withId(android.R.id.button1))
+                .perform(click());
+        onView(withId(R.id.addEndTimeEdit))
+                .perform(scrollTo(),doubleClick());
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
+                .perform(PickerActions.setTime(17, 45)); //met 8h45 par défaut
+        onView(withId(android.R.id.button1))
+                .perform(click());
+        onView(withId(R.id.spinnerRoom))
+                .perform(scrollTo(), click());
+        onData(allOf(is(instanceOf(String.class))))
+                .atPosition(5)
                 .perform(click());
         onView(withId(R.id.create))
                 .perform(scrollTo(), click());
-        onView(withId(R.id.addParticipantsEdit))
-                .check(matches(hasErrorText("Sélectionner une heure de fin")));
     }
 
     @Test
     public void addReunion_and_check_ifContainOneMoreElement_afterAdd(){
         //COUNT ITEMS
-        //onView(withId(R.id.recycler_view))
-        //        .check(withItemCount(ITEMS_COUNT_AFTER_DELETE_TEST));
+        onView(withId(R.id.recycler_view))
+                .check(withItemCount(ITEMS_COUNT_AFTER_DELETE_TEST));
 
         //ADD ITEM
         //Click on add button
@@ -299,7 +331,8 @@ public class ReunionListInstrumentedTest {
 //test ok jusqu'ici
         //Click on select participants
         onView(withId(R.id.addParticipantsEdit))
-                .perform(scrollTo(), click());
+                .perform(scrollTo(), click())
+                .perform(click());
 
         //N'affiche pas les participants mais celle des salles
         //Items selection
@@ -307,18 +340,18 @@ public class ReunionListInstrumentedTest {
                  .perform(click());
 
         //Click on "ok" button
-        //onView(withText("Ok"))
-        //        .perform(click());
+        onView(withText("Ok"))
+                .perform(click());
 
         ////Click on validation button
-        //onView(withId(R.id.create))
-        //        .perform(scrollTo(), click());
+        onView(withId(R.id.create))
+                .perform(scrollTo(), click());
 
         // CHECK IF LIST CONTAIN ONE MORE ITEM AFTER ADD
 
         //COUNT AFTER ADD
-        //onView(withId(R.id.recycler_view))
-        //        .check(withItemCount(ITEMS_COUNT_AFTER_DELETE_TEST+1));
+        onView(withId(R.id.recycler_view))
+                .check(withItemCount(ITEMS_COUNT_AFTER_DELETE_TEST+1));
 
     }
 
@@ -335,6 +368,28 @@ public class ReunionListInstrumentedTest {
         //Quit clicking on "Ok"
         onView(withId(android.R.id.button1))
                 .perform(click());
+    }
+
+    @Test
+    public void  checkFilterByDate_isDisplayed() {
+        onView(withId(R.id.main_menu))
+                .perform(click());
+        onView(anyOf(withText("Par date"), withId(R.id.by_date))).perform(click()) //test fail alors que le clic se fait
+                .perform(click());
+        //onView(withId(R.id.dialogStartDateEdit))
+        //        .perform(doubleClick());
+        //onView(withId(android.R.id.button1))
+        //        .perform(click());
+    }
+
+    @Test
+    public void  checkFilterByRoom_isDisplayed() {
+        onView(withId(R.id.main_menu))
+                .perform(click());
+        onView(anyOf(withText("Par salle"), withId(R.id.by_room))).perform(click()) //test fail alors que le clic se fait
+                .perform(click());
+        //onView(withId(android.R.id.button1))
+        //        .perform(click());
     }
 
 }

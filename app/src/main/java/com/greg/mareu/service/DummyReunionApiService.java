@@ -1,7 +1,5 @@
 package com.greg.mareu.service;
 
-import android.widget.Spinner;
-
 import com.greg.mareu.dialog_box.DateDialog;
 import com.greg.mareu.dialog_box.RoomListDialog;
 import com.greg.mareu.model.Reunion;
@@ -12,9 +10,11 @@ import java.util.List;
 public class DummyReunionApiService implements ReunionApiService
 {
     private List<Reunion> reunions = DummyReunionGenerator.generateReunions();
-    Spinner mSpinner;
-    private RoomListDialog mRoom;
+    private RoomListDialog mRoomListDialog;
     private DateDialog mDateDialog;
+    String mRoom;
+    String mFirstDate;
+    String mSecondDate;
 
     /**
      *  Get reunion list
@@ -31,15 +31,16 @@ public class DummyReunionApiService implements ReunionApiService
     @Override
     public List<Reunion> getReunionByDate() {
         List<Reunion> filterByDate = new ArrayList<>();
-
-       //for (Reunion r: reunions)
-       //{
-       //    if (r.getDay() >= firstDate &&  r.getDay() <= secondDate)
-       //    {
-       //        filterByDate.add(r);
-       //    }
-       //}
-       return filterByDate;
+        mFirstDate = mDateDialog.selectedStartHour();
+        mSecondDate = mDateDialog.selectedEndHour();
+        for (Reunion r : reunions)
+        {
+            if (r.getDay().compareTo(mFirstDate) >= 0 && r.getDay().compareTo(mSecondDate) <= 0)
+            {
+                filterByDate.add(r);
+            }
+        }
+        return filterByDate;
     }
 
     /**
@@ -48,15 +49,14 @@ public class DummyReunionApiService implements ReunionApiService
     @Override
     public List<Reunion> getReunionByRoom() {
         List<Reunion> filterByRoom = new ArrayList<>();
-        //String roomFromSpinner = mSpinner.getSelectedItem().toString();
-        //for (Reunion r : reunions)
-//
-        //{
-        //    if (r.getRoom() == roomFromSpinner)
-        //    {
-        //        filterByRoom.add(r);
-        //    }
-        //}
+        mRoom = mRoomListDialog.getSelectedRoom();
+        for (Reunion r : reunions)
+        {
+            if (r.getRoom() == mRoom)
+            {
+                filterByRoom.add(r);
+            }
+        }
         return filterByRoom;
     }
 

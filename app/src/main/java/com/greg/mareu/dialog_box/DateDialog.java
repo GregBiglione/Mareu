@@ -65,4 +65,14 @@ public class DateDialog extends AppCompatDialogFragment {
                 .setView(view);
         return builder.create();
     }
+
+    public String selectedStartHour(){
+        String start = mStartEdit.getText().toString().trim();
+        return start;
+    }
+
+    public String selectedEndHour(){
+        String end = mEndEdit.getText().toString().trim();
+        return end;
+    }
 }
