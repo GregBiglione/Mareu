@@ -1,6 +1,5 @@
 package com.greg.mareu.reunion_list;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -57,8 +56,17 @@ public class ListReunionActivity extends AppCompatActivity{
     private void initList() {
         mReunion = mApiService.getReunions();
         mRecyclerView.setAdapter(new ReunionRecyclerViewAdapter(mReunion));
+
         //initialiser liste filtrée par room
-        //mReunion = mApiService.getReunionByRoom();
+        //Switch(onOptionsItemSelected(MenuItem))
+        //{
+        //    mReunion = mApiService.getReunionByRoom();
+        //    //mRecyclerView.setAdapter(new ReunionRecyclerViewAdapter(mReunion));
+        //}
+
+        //initialiser liste filtrée par dates
+        //mReunion = mApiService.getReunionByDate();
+        //mRecyclerView.setAdapter(new ReunionRecyclerViewAdapter(mReunion));
     }
 
     @Override
@@ -97,7 +105,7 @@ public class ListReunionActivity extends AppCompatActivity{
     void addReunion(){AddReunionActivity.navigate(this);}
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.by_room:
                 RoomListDialog roomListDialog = new RoomListDialog();

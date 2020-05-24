@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -221,11 +222,12 @@ public class AddReunionActivity extends AppCompatActivity
 
         if (mAboutEditText.length() < 3 || mAboutEditText.length() > 30)
         {
-            mAboutEditText.setError("Enter un titre (3-30 caratères)");
+            mAboutEditText.setError("Entrer un titre (3-30 caratères)");
             mAboutEditText.requestFocus();
         }
         //version regroupée
-        if (mDayEditText.length() == 0 ||mStartHourEditText.length() == 0 || mEndHourEditText.length() == 0)
+        if (mDayEditText.length() == 0 || mStartHourEditText.length() == 0 || mEndHourEditText.length() == 0
+                || mParticipantsEditText.length() == 0)
         {
             //Message d'erreur setError ne peut pas être utilisé car où mettre le message d'erreur
         }
@@ -265,7 +267,7 @@ public class AddReunionActivity extends AppCompatActivity
                     mStartInput.getEditText().getText().toString().trim(),
                     mEndInput.getEditText().getText().toString().trim(),
                     //String.valueOf(spinner.getSelectedItem()),
-                    mSpinner.getSelectedItem().toString(),
+                    mSpinner.getSelectedItem().toString().trim(),
                     mParticipantsInput.getEditText().getText().toString().trim()
             );
             mApiService.createReunion(reunion);

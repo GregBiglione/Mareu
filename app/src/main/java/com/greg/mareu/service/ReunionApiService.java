@@ -16,7 +16,7 @@ public interface ReunionApiService
      * Get Reunion by date
      */
 
-    //List<Reunion> getReunionByDate();
+    List<Reunion> getReunionByDate();
 
     /**
      * Get Reunion by room

@@ -13,6 +13,9 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.greg.mareu.R;
+import com.greg.mareu.model.Reunion;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -20,6 +23,7 @@ public class RoomListDialog extends AppCompatDialogFragment {
 
     @BindView(R.id.dialogRoomSpinner) Spinner mSpinner;
     //Spinner mSpinner;
+    private List<Reunion> mReunion;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -36,7 +40,7 @@ public class RoomListDialog extends AppCompatDialogFragment {
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mSpinner.getSelectedItem().toString();
+                        String room = mSpinner.getSelectedItem().toString();
                     }
                 })
                 .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {

@@ -22,10 +22,12 @@ import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.doubleClick;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
+import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static androidx.test.espresso.matcher.ViewMatchers.hasMinimumChildCount;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withChild;
@@ -86,19 +88,156 @@ public class ReunionListInstrumentedTest {
     }
 
     @Test
-    public void add()
+    public void check_ErrorMessage_ifAddAboutEditText_CharSequence_under3()
     {
         onView(withId(R.id.add_reunion))
                 .perform(click());
         onView(withId(R.id.addAbout))
-                .perform(typeText("F"), closeSoftKeyboard(), scrollTo());
-        onView(withId(R.id.create));
-               // .perform(click());
+                .perform(typeText("F"), closeSoftKeyboard());
+        onView(withId(R.id.create))
+                .perform(click());
+        onView(withId(R.id.addAbout))
+                .check(matches(hasErrorText("Entrer un titre (3-30 caratères)")));
+    }
+
+    @Test
+    public void check_ErrorMessage_ifAddAbout_CharSequence_upper30()
+    {
+        onView(withId(R.id.add_reunion))
+                .perform(click());
+        onView(withId(R.id.addAbout))
+                .perform(typeText("abcdefghijklmnopqrstuvwxyzazertyui"), closeSoftKeyboard());
+        onView(withId(R.id.create))
+                .perform(click());
+        onView(withId(R.id.addAbout))
+                .check(matches(hasErrorText("Entrer un titre (3-30 caratères)")));
+    }
+
+    @Test
+    public void check_ErrorMessage_ifAddDateEditText_isEmpty(){
+        onView(withId(R.id.add_reunion))
+                .perform(click());
+        onView(withId(R.id.addAbout))
+                .perform(typeText("abcd"), closeSoftKeyboard());
+        onView(withId(R.id.create))
+                .perform(scrollTo(), click());
+        onView(withId(R.id.addDateEdit))
+                .check(matches(hasErrorText("Sélectionner une date")));
+    }
+
+    @Test
+    public void check_ErrorMessage_ifDate_beforeToday(){
+        onView(withId(R.id.add_reunion))
+                .perform(click());
+        onView(withId(R.id.addAbout))
+                .perform(typeText("abcd"), closeSoftKeyboard());
+        onView(allOf(withId(R.id.addDateEdit)))
+                .perform(doubleClick()); //ok jusqu'ici
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
+                .perform(PickerActions.setDate(2020, 5, 5));
+        onView(withId(android.R.id.button1))
+                .perform(click());
+        onView(withId(R.id.create))
+                .perform(scrollTo(), click());
+        onView(withId(R.id.addDateEdit))
+                .check(matches(hasErrorText("Impossible de choisir une date antérieure à aujourd'hui")));
+    }
+
+    @Test
+    public void check_ErrorMessage_ifAddStartTimeEdit_isEmpty(){
+        onView(withId(R.id.add_reunion))
+                .perform(click());
+        onView(withId(R.id.addAbout))
+                .perform(typeText("abcd"), closeSoftKeyboard());
+        onView(withId(R.id.create))
+                .perform(scrollTo(), click());
+        onView(withId(R.id.addStartTimeEdit))
+                .check(matches(hasErrorText("Sélectionner une heure de début")));
+    }
+
+    @Test
+    public void check_ErrorMessage_ifAddEndTimeEdit_isEmpty(){
+        onView(withId(R.id.add_reunion))
+                .perform(click());
+        onView(withId(R.id.addAbout))
+                .perform(typeText("abcd"), closeSoftKeyboard());
+        onView(withId(R.id.create))
+                .perform(scrollTo(), click());
+        onView(withId(R.id.addEndTimeEdit))
+                .check(matches(hasErrorText("Sélectionner une heure de fin")));
+    }
+
+    //heures choisies non sélectionnées
+    @Test
+    public void check_ErrorMessage_ifEndHour_isLowerThan_startHour(){
+        onView(withId(R.id.add_reunion))
+                .perform(click());
+        onView(withId(R.id.addAbout))
+                .perform(typeText("abcd"), closeSoftKeyboard());
+        onView(withId(R.id.addStartTimeEdit))
+                .perform(scrollTo(), doubleClick());
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
+                .perform(PickerActions.setTime(13, 45));
+        onView(withId(android.R.id.button1))
+                .perform(click());
+        onView(withId(R.id.addEndTimeEdit))
+                .perform(scrollTo(),doubleClick());
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
+                .perform(PickerActions.setTime(11, 42));
+        onView(withId(android.R.id.button1))
+                .perform(click());
+        onView(withId(R.id.create))
+                .perform(scrollTo(), click());
+        onView(withId(R.id.addEndTimeEdit))
+                .check(matches(hasErrorText("Heure de fin incorrecte")));
+    }
+
+    @Test //non défini dans AddReunion
+    public void check_ErrorMessage_ifNoRoom_isSelected(){
+        onView(withId(R.id.add_reunion))
+                .perform(click());
+        onView(withId(R.id.addAbout))
+                .perform(typeText("abcd"), closeSoftKeyboard());
+        onView(withId(R.id.addParticipantsEdit))
+                .perform(scrollTo(), click());
+        onView(withId(R.id.spinnerRoom))
+                .perform(scrollTo(), click());
+
+        //Select item at position #5 and click it
+        onData(allOf(is(instanceOf(String.class))))
+                .atPosition(0)
+                .perform(click());
+        onView(withId(R.id.create))
+                .perform(scrollTo(), click());
+        onView(withId(R.id.addParticipantsEdit))
+                .check(matches(hasErrorText("Salle non sélectionnée")));
+    }
+
+    //affiche le spinner au lieu de la checkbox
+    @Test
+    public void check_ErrorMessage_ifNoneParticipant_selected(){
+        onView(withId(R.id.add_reunion))
+                .perform(click());
+        onView(withId(R.id.addAbout))
+                .perform(typeText("abcd"), closeSoftKeyboard());
+        onView(withId(R.id.addParticipantsEdit))
+                .perform(scrollTo(), click());
+        //N'affiche pas les participants mais celle des salles
+        //Items selection
+        onData(anything()).atPosition(2).atPosition(5).atPosition(9)
+                .perform(click());
+
+        //Click on "ok" button
+        onView(withText("Ok"))
+                .perform(click());
+        onView(withId(R.id.create))
+                .perform(scrollTo(), click());
+        onView(withId(R.id.addParticipantsEdit))
+                .check(matches(hasErrorText("Sélectionner une heure de fin")));
     }
 
     @Test
     public void addReunion_and_check_ifContainOneMoreElement_afterAdd(){
-
         //COUNT ITEMS
         //onView(withId(R.id.recycler_view))
         //        .check(withItemCount(ITEMS_COUNT_AFTER_DELETE_TEST));
@@ -110,80 +249,77 @@ public class ReunionListInstrumentedTest {
 
         //Write Miaou on editText
         onView(withId(R.id.addAbout))
-                .perform(typeText("Miaou"), closeSoftKeyboard())
-                .perform(scrollTo());
+                .perform(typeText("Miaou"), closeSoftKeyboard());
 
         //Click on select a date button
         onView(allOf(withId(R.id.addDateEdit)))
-                .perform(click()); //ok jusqu'ici
-                //.perform(click()); // mettre 2 click ou un doucke clic sinon le datepicker ne s'affiche pas
+                .perform(doubleClick()); //ok jusqu'ici
 
         //DatePicker shown, need to define it
-        //onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
-        //        .perform(PickerActions.setDate(2020, 6, 4));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
+                .perform(PickerActions.setDate(2020, 6, 4));
 
         //Click on "ok" button in the DatePicker
-       //onView(withId(android.R.id.button1))
-       //       .perform(click());
+        onView(withId(android.R.id.button1))
+               .perform(click());
 
-       ////Select a start hour
-       //onView(withId(R.id.addStartTimeEdit))
-       //        .perform(scrollTo(),click())
-       //        .perform(click()); //double clic ?
+        //Select a start hour
+        onView(withId(R.id.addStartTimeEdit))
+              .perform(scrollTo(), doubleClick());
 
-       ////HourPicker shown, need to define a beginning hour
-       //onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
-       //        .perform(PickerActions.setTime(13, 45)); // met 8h45 par défaut
+        //HourPicker shown, need to define a beginning hour
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
+                .perform(PickerActions.setTime(13, 45)); // met 8h45 par défaut
 
-       ////Click on "ok" button in the TimePicker
-       //onView(withId(android.R.id.button1))
-       //        .perform(click());
+        //Click on "ok" button in the TimePicker
+        onView(withId(android.R.id.button1))
+                .perform(click());
 
-       /////Select a start hour
-       //onView(withId(R.id.addEndTimeEdit))
-       //       .perform(scrollTo(),click())
-       //       .perform(click()); //double clic ?
+        ///Select a start hour
+        onView(withId(R.id.addEndTimeEdit))
+               .perform(scrollTo(),doubleClick());
 
-       ////HourPicker shown, need to define a finish hour
-       //onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
-       //        .perform(PickerActions.setTime(17, 45)); //met 8h45 par défaut
+        //HourPicker shown, need to define a finish hour
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
+                .perform(PickerActions.setTime(17, 45)); //met 8h45 par défaut
 
-       ////Click on "ok" button in the TimePicker
-       //onView(withId(android.R.id.button1))
-       //        .perform(click());
+        //Click on "ok" button in the TimePicker
+        onView(withId(android.R.id.button1))
+                .perform(click());
 
-       ////Click on spinner
-       //onView(withId(R.id.spinnerRoom))
-       //        .perform(scrollTo(), click());
+        //Click on spinner
+        onView(withId(R.id.spinnerRoom))
+                .perform(scrollTo(), click());
 
-       ////Select item at position #5 and click it
-       //onData(allOf(is(instanceOf(String.class))))
-       //        .atPosition(5)
-       //        .perform(click());
+        //Select item at position #5 and click it
+        onData(allOf(is(instanceOf(String.class))))
+                .atPosition(5)
+                .perform(click());
 
-//test //k jusqu'ici
-       ////Click on select participants
-       //onView(withId(R.id.addParticipantsEdit))
-       //        .perform(scrollTo(), click());
+//test ok jusqu'ici
+        //Click on select participants
+        onView(withId(R.id.addParticipantsEdit))
+                .perform(scrollTo(), click());
 
-       ////N'affiche pas les participants mais celle des salle
-       ////Items selection
-       //onData(anything()).atPosition(2).atPosition(5).atPosition(9)
-       //         .perform(click());
+        //N'affiche pas les participants mais celle des salles
+        //Items selection
+        onData(anything()).atPosition(2).atPosition(5).atPosition(9)
+                 .perform(click());
 
-         //Click on "ok" button
-         //onView(withText("Ok"))
-         //        .perform(click());
+        //Click on "ok" button
+        //onView(withText("Ok"))
+        //        .perform(click());
 
-       ////Click on validation button
-       //onView(withId(R.id.create))
-       //        .perform(scrollTo(), click());
+        ////Click on validation button
+        //onView(withId(R.id.create))
+        //        .perform(scrollTo(), click());
 
         // CHECK IF LIST CONTAIN ONE MORE ITEM AFTER ADD
 
         //COUNT AFTER ADD
         //onView(withId(R.id.recycler_view))
         //        .check(withItemCount(ITEMS_COUNT_AFTER_DELETE_TEST+1));
+
     }
 
     @Test
