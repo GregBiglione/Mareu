@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,11 +16,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -30,15 +25,14 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.greg.mareu.R;
 import com.greg.mareu.di.DI;
+import com.greg.mareu.dialog_box.WarningDialog;
 import com.greg.mareu.model.Reunion;
-//import com.greg.mareu.picker.Pick;
 import com.greg.mareu.picker.Pick;
 import com.greg.mareu.service.ReunionApiService;
 
-import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.BindView;
@@ -80,6 +74,7 @@ public class AddReunionActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_reunion);
+        mApiService = DI.getReunionApiService();
         ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -120,6 +115,7 @@ public class AddReunionActivity extends AppCompatActivity
                Pick.pickDate(mDayEditText, AddReunionActivity.this);
             }
         });
+        mDayEditText.setKeyListener(null);
 
        mStartHourEditText.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -127,6 +123,7 @@ public class AddReunionActivity extends AppCompatActivity
                Pick.pickHour(mStartHourEditText, mEndHourEditText ,AddReunionActivity.this);
            }
        });
+        mStartHourEditText.setKeyListener(null);
 
         mEndHourEditText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,6 +131,7 @@ public class AddReunionActivity extends AppCompatActivity
                 Pick.pickHour(mStartHourEditText, mEndHourEditText, AddReunionActivity.this);
             }
         });
+        mEndHourEditText.setKeyListener(null);
 
        listOfParticipants = getResources().getStringArray(R.array.participants_array);
        checkedParticipants = new boolean[listOfParticipants.length];
@@ -199,6 +197,7 @@ public class AddReunionActivity extends AppCompatActivity
                mAlertDialog.show();
            }
        });
+       mParticipantsEditText.setKeyListener(null);
 
         mApiService = DI.getReunionApiService();
         init();
@@ -215,6 +214,27 @@ public class AddReunionActivity extends AppCompatActivity
             @Override
             public void afterTextChanged(Editable s) { mAddButton.setEnabled(s.length() > 0);}
         });
+    }
+
+    public String dayToAdd()
+    {
+        String dayAdded = mDayInput.getEditText().getText().toString().trim();
+        return dayAdded;
+    }
+
+    public String startHourToAdd(){
+        String startHourAdded = mStartInput.getEditText().getText().toString().trim();
+        return startHourAdded;
+    }
+
+    public String endHourToAdd(){
+        String endHourAded = mEndInput.getEditText().getText().toString().trim();
+        return endHourAded;
+    }
+
+    public String roomToAdd(){
+        String roomAdded = mSpinner.getSelectedItem().toString().trim();
+        return roomAdded;
     }
 
     @OnClick(R.id.create)
@@ -246,24 +266,46 @@ public class AddReunionActivity extends AppCompatActivity
             mEndHourEditText.setError("Sélectionner une heure de fin");
             mEndHourEditText.requestFocus();
         }
-        if (mSpinner.getItemIdAtPosition(0) == 0)
-        {
-            TextView errorText = (TextView)mSpinner.getSelectedView();
-            errorText.setError("icon"); // au niveau du clic
-            errorText.setTextColor(Color.RED);//just to highlight that this is an error
-            errorText.setText("Salle non sélectionnée");
-        }
         if(mParticipantsEditText.length() == 0) //modifier si position 0 dans le spinner renvoyer setError
         {
             mParticipantsEditText.setError("Sélectionner au moins 1 participant");
             mParticipantsEditText.requestFocus();
         }
         else{
+            //if ()
+            //{
+            //    WarningDialog warningDialog = new WarningDialog();
+            //    warningDialog.show(getSupportFragmentManager(), "warning box");
+            //}
+            //else
+            //{
+            //    Reunion reunion = new Reunion(
+            //            System.currentTimeMillis(),
+            //            mRandomImage,
+            //            mAboutInput.getEditText().getText().toString().trim(),
+            //            mDayInput.getEditText().getText().toString().trim(),
+            //            mStartInput.getEditText().getText().toString().trim(),
+            //            mEndInput.getEditText().getText().toString().trim(),
+            //            //String.valueOf(spinner.getSelectedItem()),
+            //            mSpinner.getSelectedItem().toString().trim(),
+            //            mParticipantsInput.getEditText().getText().toString().trim()
+            //    );
+            //    mApiService.createReunion(reunion);
+            //    Toasty.success(this, "Réunion enregistrée", Toast.LENGTH_SHORT).show();
+            //    finish();
+            //}
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            Date reunionDate = null;
+            try {
+                reunionDate = simpleDateFormat.parse(mDayInput.getEditText().getText().toString().trim());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             Reunion reunion = new Reunion(
                     System.currentTimeMillis(),
                     mRandomImage,
                     mAboutInput.getEditText().getText().toString().trim(),
-                    mDayInput.getEditText().getText().toString().trim(),
+                    reunionDate,
                     mStartInput.getEditText().getText().toString().trim(),
                     mEndInput.getEditText().getText().toString().trim(),
                     //String.valueOf(spinner.getSelectedItem()),

@@ -14,7 +14,14 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.greg.mareu.R;
+import com.greg.mareu.events.FilterByDateEvent;
 import com.greg.mareu.picker.Pick;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.BindView;
 
@@ -35,10 +42,7 @@ public class DateDialog extends AppCompatDialogFragment {
 
         mStartEdit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
-                Pick.pickDate(mStartEdit, getActivity());
-            }
+            public void onClick(View v) { Pick.pickDate(mStartEdit, getActivity()); }
         });
 
         mEndEdit.setOnClickListener(new View.OnClickListener() {
@@ -52,8 +56,15 @@ public class DateDialog extends AppCompatDialogFragment {
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String start = mStartEdit.getText().toString().trim();
-                        String end = mEndEdit.getText().toString().trim();
+                        try {
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                            Date start = simpleDateFormat.parse(mStartEdit.getText().toString().trim());
+                            Date end = simpleDateFormat.parse(mEndEdit.getText().toString().trim());
+                            EventBus.getDefault().post(new FilterByDateEvent(start, end));
+                        }
+                        catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                     }
                 })
                 .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
@@ -64,15 +75,5 @@ public class DateDialog extends AppCompatDialogFragment {
                 })
                 .setView(view);
         return builder.create();
-    }
-
-    public String selectedStartHour(){
-        String start = mStartEdit.getText().toString().trim();
-        return start;
-    }
-
-    public String selectedEndHour(){
-        String end = mEndEdit.getText().toString().trim();
-        return end;
     }
 }

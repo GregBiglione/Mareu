@@ -16,6 +16,7 @@ import com.greg.mareu.dialog_box.DateDialog;
 import com.greg.mareu.dialog_box.ParticipantsListDialog;
 import com.greg.mareu.dialog_box.RoomListDialog;
 import com.greg.mareu.events.DeleteReunionEvent;
+import com.greg.mareu.events.FilterByDateEvent;
 import com.greg.mareu.events.ParticipantsListEvent;
 import com.greg.mareu.model.Reunion;
 import com.greg.mareu.service.ReunionApiService;
@@ -57,16 +58,16 @@ public class ListReunionActivity extends AppCompatActivity{
         mReunion = mApiService.getReunions();
         mRecyclerView.setAdapter(new ReunionRecyclerViewAdapter(mReunion));
 
-        //initialiser liste filtrée par room
-        //Switch(onOptionsItemSelected(MenuItem))
-        //{
-        //    mReunion = mApiService.getReunionByRoom();
-        //    //mRecyclerView.setAdapter(new ReunionRecyclerViewAdapter(mReunion));
-        //}
-
         //initialiser liste filtrée par dates
         //mReunion = mApiService.getReunionByDate();
-        //mRecyclerView.setAdapter(new ReunionRecyclerViewAdapter(mReunion));
+        //
+    }
+
+    @Subscribe
+    public void onFilterByDate(FilterByDateEvent event)
+    {
+        mReunion = mApiService.getReunionByDate(event.getStartDate(), event.getEndDate());
+        mRecyclerView.setAdapter(new ReunionRecyclerViewAdapter(mReunion));
     }
 
     @Override
@@ -103,6 +104,11 @@ public class ListReunionActivity extends AppCompatActivity{
 
     @OnClick(R.id.add_reunion)
     void addReunion(){AddReunionActivity.navigate(this);}
+
+    //private void filteredRoom(){
+    //    mReunion = mApiService.getReunionByRoom();
+    //    mRecyclerView.setAdapter(new ReunionRecyclerViewAdapter(mReunion));
+    //}
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -35,13 +35,13 @@ public class Pick
                 cPicked.set(Calendar.MONTH, month);
                 cPicked.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                String pickedDate = DateFormat.getDateInstance(DateFormat.FULL).format(cPicked.getTime());
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                String pickedDate = simpleDateFormat.format(cPicked.getTime());
 
                 //Comparer les dates et interdire les dates dans le passé
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
                 String getSimpleToday = simpleDateFormat.format(c.getTime());
-                String getSimplePicked = simpleDateFormat.format(cPicked.getTime());
-                if (getSimplePicked.compareTo(getSimpleToday) < 0)
+                //String getSimplePicked = simpleDateFormat.format(cPicked.getTime());
+                if (pickedDate.compareTo(getSimpleToday) < 0)
                 {
                     mDayEditText.setError("Impossible de choisir une date antérieure à aujourd'hui");
                 }

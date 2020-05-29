@@ -2,18 +2,20 @@ package com.greg.mareu.model;
 
 import androidx.annotation.Nullable;
 
+import java.util.Date;
+
 public class Reunion
 {
     long id;
     String reunionAvatar;
     String aboutReunion;
-    String day;
+    Date day;
     String startTime;
     String endTime;
     String room;
     String participants;
 
-    public Reunion(long id, String reunionAvatar, String aboutReunion, String day, String startTime, String endTime, String room, String participants) {
+    public Reunion(long id, String reunionAvatar, String aboutReunion, Date day, String startTime, String endTime, String room, String participants) {
         this.id = id;
         this.reunionAvatar = reunionAvatar;
         this.aboutReunion = aboutReunion;
@@ -48,11 +50,11 @@ public class Reunion
         this.aboutReunion = aboutReunion;
     }
 
-    public String getDay() {
+    public Date getDay() {
         return day;
     }
 
-    public void setDay(String day) {
+    public void setDay(Date day) {
         this.day = day;
     }
 

@@ -18,6 +18,7 @@ import com.greg.mareu.model.Reunion;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -51,7 +52,8 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
 
         holder.mAbout.setText(reunion.getAboutReunion());
         holder.mRoom.setText(reunion.getRoom());
-        holder.mDay.setText(reunion.getDay());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        holder.mDay.setText(simpleDateFormat.format(reunion.getDay()));
         holder.mStartHour.setText(reunion.getStartTime());
         holder.mEndHour.setText(reunion.getEndTime());
 
@@ -86,9 +88,7 @@ public class ReunionRecyclerViewAdapter extends RecyclerView.Adapter<ReunionRecy
         @BindView(R.id.endReunion) TextView mEndHour;
         @BindView(R.id.reunion_day) TextView mDay;
         @BindView(R.id.delete_button) ImageButton mDelete;
-        //@BindView(R.id.openParticipantsList) ConstraintLayout mOpenParticipantsListButton;
         @BindView(R.id.openParticipantsList) RelativeLayout mOpenParticipantsListButton;
-
 
         public ViewHolder(View itemView)
         {

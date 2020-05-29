@@ -58,7 +58,8 @@
                     android:hint="@string/date"
                     android:inputType="date"
                     android:drawableStart="@drawable/ic_date_range_black_24dp"
-                    android:nextFocusDown="@id/addStartTimeEdit"/>
+                    android:nextFocusDown="@id/addStartTimeEdit"
+                    android:cursorVisible="false"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -90,7 +91,8 @@
                            android:inputType="time"
                            android:drawableStart="@drawable/ic_hour_black_24dp"
                            style="@style/ml"
-                           android:nextFocusDown="@id/addEndTimeEdit"/>
+                           android:nextFocusDown="@id/addEndTimeEdit"
+                           android:cursorVisible="false"/>
 
                    </com.google.android.material.textfield.TextInputLayout>
 
@@ -110,7 +112,8 @@
                            android:inputType="time"
                            android:drawableStart="@drawable/ic_hour_black_24dp"
                            style="@style/mr"
-                           android:nextFocusDown="@+id/spinnerRoom"/>
+                           android:nextFocusDown="@+id/spinnerRoom"
+                           android:cursorVisible="false"/>
 
                    </com.google.android.material.textfield.TextInputLayout>
                </LinearLayout>
@@ -141,7 +144,8 @@
                     android:maxLines="20"
                     android:drawableStart="@drawable/ic_group_add_black_24dp"
                     android:drawablePadding="5dp"
-                    android:nextFocusDown="@id/create"/>
+                    android:nextFocusDown="@id/create"
+                    android:cursorVisible="false"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -156,7 +160,8 @@
                 android:hint="@string/save"
                 android:textSize="18sp"
                 app:cornerRadius="20dp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                style="@style/Widget.MaterialComponents.Button"/>
 
         </LinearLayout>
 
