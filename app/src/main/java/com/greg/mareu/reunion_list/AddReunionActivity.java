@@ -94,19 +94,9 @@ public class AddReunionActivity extends AppCompatActivity
         mSpinner.setAdapter(adapter);
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //if ((parent.getSelectedItem().toString().contentEquals("Sélectionner une salle")))
-                //{
-                //    TextView errorText = (TextView)mSpinner.getSelectedView();
-                //    errorText.setError("anything here, just to add the icon"); // au niveau du clic
-                //    errorText.setTextColor(Color.RED);//just to highlight that this is an error
-                //    errorText.setText("Salle non sélectionnée");
-                //}
-            }
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {}
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         mDayEditText.setOnClickListener(new View.OnClickListener() {
@@ -214,27 +204,6 @@ public class AddReunionActivity extends AppCompatActivity
             @Override
             public void afterTextChanged(Editable s) { mAddButton.setEnabled(s.length() > 0);}
         });
-    }
-
-    public String dayToAdd()
-    {
-        String dayAdded = mDayInput.getEditText().getText().toString().trim();
-        return dayAdded;
-    }
-
-    public String startHourToAdd(){
-        String startHourAdded = mStartInput.getEditText().getText().toString().trim();
-        return startHourAdded;
-    }
-
-    public String endHourToAdd(){
-        String endHourAded = mEndInput.getEditText().getText().toString().trim();
-        return endHourAded;
-    }
-
-    public String roomToAdd(){
-        String roomAdded = mSpinner.getSelectedItem().toString().trim();
-        return roomAdded;
     }
 
     @OnClick(R.id.create)

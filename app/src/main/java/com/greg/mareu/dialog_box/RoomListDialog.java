@@ -14,13 +14,15 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.greg.mareu.R;
+import com.greg.mareu.events.FilterByRoomEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 
 public class RoomListDialog extends AppCompatDialogFragment {
 
     @BindView(R.id.dialogRoomSpinner) Spinner mSpinnerDialog;
-    private String mRoom;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -36,7 +38,7 @@ public class RoomListDialog extends AppCompatDialogFragment {
         mSpinnerDialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mRoom = parent.getSelectedItem().toString().trim();
+
             }
 
             @Override
@@ -49,7 +51,8 @@ public class RoomListDialog extends AppCompatDialogFragment {
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String room = mSpinnerDialog.getSelectedItem().toString();
+                        String pickedRoom = mSpinnerDialog.getSelectedItem().toString().trim();
+                        EventBus.getDefault().post(new FilterByRoomEvent(pickedRoom));
                     }
                 })
                 .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
@@ -58,11 +61,5 @@ public class RoomListDialog extends AppCompatDialogFragment {
                 })
                 .setView(view);
         return mBuilder.create();
-    }
-
-    public String getSelectedRoom()
-    {
-        //String pickedRoom = mSpinnerDialog.getSelectedItem().toString().trim();
-        return mRoom;
     }
 }

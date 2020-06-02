@@ -23,7 +23,7 @@ public interface ReunionApiService
      * Get Reunion by room
      */
 
-    //List<Reunion> getReunionByRoom(Reunion reunion);
+    List<Reunion> getReunionByRoom(String roomSelected);
 
     /**
      * Delete a reunion
@@ -34,7 +34,7 @@ public interface ReunionApiService
      * Check matches with existing reunion
      */
 
-    //void checkMatches();
+    //void checkMatches(String roomPicked, Date dayPicked, String startHour, String endHour);
 
     void deleteReunion(Reunion reunion);
 
