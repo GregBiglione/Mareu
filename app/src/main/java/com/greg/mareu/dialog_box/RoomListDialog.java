@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
@@ -23,6 +24,8 @@ import butterknife.BindView;
 public class RoomListDialog extends AppCompatDialogFragment {
 
     @BindView(R.id.dialogRoomSpinner) Spinner mSpinnerDialog;
+    @BindView(R.id.okRoomDialog) Button mOkRoom;
+    @BindView(R.id.cancelRoomDialog) Button mCancelRoom;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -47,19 +50,35 @@ public class RoomListDialog extends AppCompatDialogFragment {
             }
         });
 
-        mBuilder.setTitle("Choix de la salle")
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String pickedRoom = mSpinnerDialog.getSelectedItem().toString().trim();
-                        EventBus.getDefault().post(new FilterByRoomEvent(pickedRoom));
-                    }
-                })
-                .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {}
-                })
-                .setView(view);
+        mOkRoom = view.findViewById(R.id.okRoomDialog);
+        mCancelRoom = view.findViewById(R.id.cancelRoomDialog);
+
+        mBuilder.setTitle("Choix de la salle");
+        mOkRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String pickedRoom = mSpinnerDialog.getSelectedItem().toString().trim();
+                EventBus.getDefault().post(new FilterByRoomEvent(pickedRoom));
+            }
+        });
+        mCancelRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+                //.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                //    @Override
+                //    public void onClick(DialogInterface dialog, int which) {
+                //        String pickedRoom = mSpinnerDialog.getSelectedItem().toString().trim();
+                //        EventBus.getDefault().post(new FilterByRoomEvent(pickedRoom));
+                //    }
+                //})
+                //.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                //    @Override
+                //    public void onClick(DialogInterface dialog, int which) {}
+                //})
+        mBuilder.setView(view);
         return mBuilder.create();
     }
 }
