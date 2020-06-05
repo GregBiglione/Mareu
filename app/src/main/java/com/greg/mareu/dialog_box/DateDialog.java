@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -29,6 +30,8 @@ public class DateDialog extends AppCompatDialogFragment {
 
     @BindView(R.id.dialogStartDateEdit) EditText mStartEdit;
     @BindView(R.id.dialogEndDateEdit) EditText mEndEdit;
+    @BindView(R.id.okDateDialog) Button mOkDate;
+    @BindView(R.id.cancelDateDialog) Button mCancelDate;
     private Pick mPick;
 
     @Override
@@ -39,6 +42,8 @@ public class DateDialog extends AppCompatDialogFragment {
 
         mStartEdit = view.findViewById(R.id.dialogStartDateEdit);
         mEndEdit = view.findViewById(R.id.dialogEndDateEdit);
+        mOkDate = view.findViewById(R.id.okDateDialog);
+        mCancelDate = view.findViewById(R.id.cancelDateDialog);
 
         mStartEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,28 +57,30 @@ public class DateDialog extends AppCompatDialogFragment {
             }
         });
 
-        builder.setTitle("Choix des dates")
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                            Date start = simpleDateFormat.parse(mStartEdit.getText().toString().trim());
-                            Date end = simpleDateFormat.parse(mEndEdit.getText().toString().trim());
-                            EventBus.getDefault().post(new FilterByDateEvent(start, end));
-                        }
-                        catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                })
-                .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+        builder.setTitle("Choix des dates");
 
-                    }
-                })
-                .setView(view);
+        mOkDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    Date start = simpleDateFormat.parse(mStartEdit.getText().toString().trim());
+                    Date end = simpleDateFormat.parse(mEndEdit.getText().toString().trim());
+                    EventBus.getDefault().post(new FilterByDateEvent(start, end));
+                }
+                catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        mCancelDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        builder.setView(view);
+
         return builder.create();
     }
 }

@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -48,7 +49,7 @@ public class ReunionServiceTest {
         long id = 16;
         String reunionAvatar = "https://placeimg.com/640/480/any" + System.currentTimeMillis();
         String aboutReunion = "Miaou";
-        String day = "jeudi 22 juillet 2054";
+        Date day = new Date(154, 6, 7);
         String startTime = "13h44";
         String endTime = "13h44";
         String room = "Salle Lion";

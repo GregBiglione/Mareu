@@ -77,7 +77,7 @@ public class ReunionListInstrumentedTest {
                 .check(matches(hasMinimumChildCount(1)));
     }
 
-    @Test //OK EN INDIV Interférence avec le test d'ajout car la liste ne conteint plus le même nombre d'éléments
+    @Test //OK EN INDIV Interférence avec le test d'ajout car la liste ne contient plus le même nombre d'éléments
     public void reunionList_deleteAction_shouldRemoveOneItem(){
         //Count items
         onView(withId(R.id.recycler_view))
@@ -180,13 +180,18 @@ public class ReunionListInstrumentedTest {
         onView(withId(R.id.addStartTimeEdit))
                 .perform(scrollTo(), doubleClick());
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
-                .perform(PickerActions.setTime(13, 45));
+                .perform(PickerActions.setTime(9, 45));
         onView(withId(android.R.id.button1))
                 .perform(click());
         onView(withId(R.id.addEndTimeEdit))
                 .perform(scrollTo(),doubleClick());
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
                 .perform(PickerActions.setTime(11, 42));
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(android.R.id.button1))
                 .perform(click());
         onView(withId(R.id.create))
@@ -195,11 +200,14 @@ public class ReunionListInstrumentedTest {
                 .check(matches(hasErrorText("Heure de fin incorrecte"))); //Fail ici car ce ne doit pas être le bon msg pb de code niveau addReunionActivity au niveau des if et des setError
     }
 
-    //affiche le spinner au lieu de la checkbox
-    @Test //OK EN INDIV MAIS TR7S LONG du au if setError de addReunion
-    public void check_ErrorMessage_ifNoneParticipant_selected(){
+    private void addReunion(){
         onView(withId(R.id.add_reunion))
                 .perform(click());
+    }
+
+    @Test //OK EN INDIV MAIS TRES LONG du au if setError de addReunion
+    public void check_ErrorMessage_ifNoneParticipant_selected(){
+        addReunion();
         onView(withId(R.id.addAbout))
                 .perform(typeText("Miaou"), closeSoftKeyboard());
         onView(allOf(withId(R.id.addDateEdit)))
@@ -233,7 +241,7 @@ public class ReunionListInstrumentedTest {
     public void addReunion_and_check_ifContainOneMoreElement_afterAdd(){
         //COUNT ITEMS
         onView(withId(R.id.recycler_view))
-                .check(withItemCount(ITEMS_COUNT_AFTER_DELETE_TEST)); // peut interfeéréré si ce test est effectué après delete car la list comptera 14 et pas 15 éléments
+                .check(withItemCount(ITEMS_COUNT_AFTER_DELETE_TEST)); // peut interférer si ce test est effectué après delete car la list comptera 14 et pas 15 éléments
 
         //ADD ITEM
         //Click on add button
@@ -284,9 +292,9 @@ public class ReunionListInstrumentedTest {
         onView(withId(R.id.spinnerRoom))
                 .perform(scrollTo(), click());
 
-        //Select item at position #5 and click it
+        //Select item at position #4 and click it
         onData(allOf(is(instanceOf(String.class))))
-                .atPosition(5)
+                .atPosition(4)
                 .perform(click());
 
 //test ok jusqu'ici
@@ -331,26 +339,42 @@ public class ReunionListInstrumentedTest {
                 .perform(click());
     }
 
-    @Test //FAIL ALORS QUE L4ON ARRIVE A L'AAFICHAGE DE LA BOITE DE DIALOGUE
+    @Test //FAIL
     public void  checkFilterByDate_isDisplayed() {
         onView(withId(R.id.main_menu))
                 .perform(click());
-        onView(anyOf(withText("Par date"), withId(R.id.by_date))).perform(click()) //test fail alors que le clic se fait
+        onView(anyOf(withText("Par date"), withId(R.id.by_date)))
                 .perform(click());
-        //onView(withId(R.id.dialogStartDateEdit))
-        //        .perform(doubleClick());
-        //onView(withId(android.R.id.button1))
-        //        .perform(click());
+        onView(withId(R.id.dialogStartDateEdit))
+                 .perform(click());
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
+                .perform(PickerActions.setDate(2020, 6, 4));
+        onView(withId(android.R.id.button1))
+                .perform(click());
+        onView(withId(R.id.dialogEndDateEdit))
+                .perform(click());
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
+                .perform(PickerActions.setDate(2020, 6, 25)); //Fail ici du au problème dans le pickDate
+        //onView(anyOf(withText("Par date"), withId(android.R.id.button1)));
+                //.perform(click())
+        //onView(withId(R.id.recycler_view))
+        //        .check(matches(isDisplayed()));
     }
 
-    @Test //FAIL ALORS QUE L4ON ARRIVE A L'AAFICHAGE DE LA BOITE DE DIALOGUE
+    @Test //FAIL Délai très long au moment de cliquer sur Ok
     public void  checkFilterByRoom_isDisplayed() {
         onView(withId(R.id.main_menu))
                 .perform(click());
-        onView(anyOf(withText("Par salle"), withId(R.id.by_room))).perform(click()) //test fail alors que le clic se fait
+        onView(anyOf(withText("Par salle"), withId(R.id.by_room)))
+                .perform(click()); //test fail alors que le clic se fait
+        onData(allOf(is(instanceOf(String.class))))
+                .atPosition(4)
                 .perform(click());
-        //onView(withId(android.R.id.button1))
-        //        .perform(click());
+        onView(anyOf(withText("Par salle"), withId(android.R.id.button1)));
+                //.perform(click()) // ceci fait crasher le test
+        //onView(withId(R.id.recycler_view))
+        //        .check(matches(isDisplayed()));
+
     }
 
 }
