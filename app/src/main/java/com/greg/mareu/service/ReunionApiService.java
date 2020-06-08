@@ -32,9 +32,10 @@ public interface ReunionApiService
 
     /**
      * Check matches with existing reunion
+     * @return
      */
 
-    //void checkMatches(String roomPicked, Date dayPicked, String startHour, String endHour);
+    boolean checkMatches(String roomPicked, Date dayPicked, String startHour, String endHour);
 
     void deleteReunion(Reunion reunion);
 

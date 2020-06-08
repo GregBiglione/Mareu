@@ -53,18 +53,21 @@ public class DummyReunionApiService implements ReunionApiService
 
     /**
      * Check matches with existing reunion
+     * @return
      */
 
-    //public void checkMatches(String roomPicked, Date dayPicked, String startHour, String endHour){
-    //    for (Reunion r : reunions)
-    //    {
-    //        if (r.getDay() == dayPicked && r.getStartTime().compareTo(endHour) >= 0 && r.getEndTime().compareTo(startHour) <= 0
-    //        && r.getRoom() == roomPicked)
-    //        {
-//
-    //        }
-    //    }
-    //}
+    public boolean checkMatches(String roomPicked, Date dayPicked, String startHour, String endHour){
+        for (Reunion r : reunions)
+        {
+            if (r.getDay() == dayPicked && r.getRoom() == roomPicked &&
+                    (r.getStartTime().compareTo(startHour) >= 0 && r.getStartTime().compareTo(endHour) <= 0
+                    || r.getEndTime().compareTo(startHour) >=0 && r.getEndTime().compareTo(endHour) <=0))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Delete reunion

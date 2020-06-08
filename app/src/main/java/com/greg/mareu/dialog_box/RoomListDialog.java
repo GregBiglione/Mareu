@@ -59,12 +59,13 @@ public class RoomListDialog extends AppCompatDialogFragment {
             public void onClick(View v) {
                 String pickedRoom = mSpinnerDialog.getSelectedItem().toString().trim();
                 EventBus.getDefault().post(new FilterByRoomEvent(pickedRoom));
+                dismiss();
             }
         });
         mCancelRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                dismiss();
             }
         });
                 //.setPositiveButton("Ok", new DialogInterface.OnClickListener() {

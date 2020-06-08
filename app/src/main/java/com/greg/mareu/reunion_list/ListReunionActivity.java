@@ -109,11 +109,6 @@ public class ListReunionActivity extends AppCompatActivity{
     @OnClick(R.id.add_reunion)
     void addReunion(){AddReunionActivity.navigate(this);}
 
-    //private void filteredRoom(){
-    //    mReunion = mApiService.getReunionByRoom();
-    //    mRecyclerView.setAdapter(new ReunionRecyclerViewAdapter(mReunion));
-    //}
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){

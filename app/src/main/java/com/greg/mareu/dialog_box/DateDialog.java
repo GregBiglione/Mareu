@@ -71,12 +71,13 @@ public class DateDialog extends AppCompatDialogFragment {
                 catch (ParseException e) {
                     e.printStackTrace();
                 }
+                dismiss();
             }
         });
         mCancelDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                dismiss();
             }
         });
         builder.setView(view);

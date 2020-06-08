@@ -7,7 +7,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,8 +16,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
@@ -39,7 +36,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
-import es.dmoral.toasty.Toasty;
 
 public class AddReunionActivity extends AppCompatActivity
 {
@@ -209,22 +205,44 @@ public class AddReunionActivity extends AppCompatActivity
     @OnClick(R.id.create)
     void addReunion(View view){
 
+        //Calendar c = Calendar.getInstance();
+        //int year = c.get(Calendar.YEAR);
+        //int month = c.get(Calendar.MONTH);
+        //int day = c.get(Calendar.DAY_OF_MONTH);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date reunionDate = null;
+        try {
+            reunionDate = simpleDateFormat.parse(mDayInput.getEditText().getText().toString().trim());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        //String getSimpleToday = simpleDateFormat.format(c.getTime());
+        //try {
+        //    Date today = simpleDateFormat.parse(getSimpleToday);
+        //} catch (ParseException e) {
+        //    e.printStackTrace();
+        //}
+
+        String startHourSelected = mStartInput.getEditText().getText().toString().trim();
+        String endHourSelected = mEndInput.getEditText().getText().toString().trim();
+        String selectedRoom =  mSpinner.getSelectedItem().toString().trim();
+
         if (mAboutEditText.length() < 3 || mAboutEditText.length() > 30)
         {
             mAboutEditText.setError("Entrer un titre (3-30 caratères)");
             mAboutEditText.requestFocus();
-        }
-        //version regroupée
-        if (mDayEditText.length() == 0 || mStartHourEditText.length() == 0 || mEndHourEditText.length() == 0
-                || mParticipantsEditText.length() == 0)
-        {
-            //Message d'erreur setError ne peut pas être utilisé car où mettre le message d'erreur
         }
         if (mDayEditText.length() == 0)
         {
             mDayEditText.setError("Sélectionner une date");
             mDayEditText.requestFocus();
         }
+        //if(reunionDate.before(today))
+        //{
+        //    mDayEditText.setError("Impossible de choisir une date antérieure à aujourd'hui (add)");
+        //}
         if (mStartHourEditText.length() == 0)
         {
             mStartHourEditText.setError("Sélectionner une heure de début");
@@ -241,7 +259,13 @@ public class AddReunionActivity extends AppCompatActivity
             mParticipantsEditText.requestFocus();
         }
         else{
-            //if ()
+
+            //warningBox(Reunion);
+            WarningDialog warningDialog = new WarningDialog();
+            warningDialog.show(getSupportFragmentManager(), "warning box");
+
+            //if (mApiService.checkMatches(selectedRoom, reunionDate,
+            //        startHourSelected, endHourSelected) == true)
             //{
             //    WarningDialog warningDialog = new WarningDialog();
             //    warningDialog.show(getSupportFragmentManager(), "warning box");
@@ -252,38 +276,37 @@ public class AddReunionActivity extends AppCompatActivity
             //            System.currentTimeMillis(),
             //            mRandomImage,
             //            mAboutInput.getEditText().getText().toString().trim(),
-            //            mDayInput.getEditText().getText().toString().trim(),
-            //            mStartInput.getEditText().getText().toString().trim(),
-            //            mEndInput.getEditText().getText().toString().trim(),
-            //            //String.valueOf(spinner.getSelectedItem()),
-            //            mSpinner.getSelectedItem().toString().trim(),
+            //            reunionDate,
+            //            startHourSelected ,
+            //            endHourSelected,
+            //            selectedRoom,
             //            mParticipantsInput.getEditText().getText().toString().trim()
             //    );
             //    mApiService.createReunion(reunion);
             //    Toasty.success(this, "Réunion enregistrée", Toast.LENGTH_SHORT).show();
             //    finish();
             //}
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            Date reunionDate = null;
-            try {
-                reunionDate = simpleDateFormat.parse(mDayInput.getEditText().getText().toString().trim());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            Reunion reunion = new Reunion(
-                    System.currentTimeMillis(),
-                    mRandomImage,
-                    mAboutInput.getEditText().getText().toString().trim(),
-                    reunionDate,
-                    mStartInput.getEditText().getText().toString().trim(),
-                    mEndInput.getEditText().getText().toString().trim(),
-                    //String.valueOf(spinner.getSelectedItem()),
-                    mSpinner.getSelectedItem().toString().trim(),
-                    mParticipantsInput.getEditText().getText().toString().trim()
-            );
-            mApiService.createReunion(reunion);
-            Toasty.success(this, "Réunion enregistrée", Toast.LENGTH_SHORT).show();
-            finish();
+            //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            //Date reunionDate = null;
+            //try {
+            //    reunionDate = simpleDateFormat.parse(mDayInput.getEditText().getText().toString().trim());
+            //} catch (ParseException e) {
+            //    e.printStackTrace();
+            //}
+            //Reunion reunion = new Reunion(
+            //        System.currentTimeMillis(),
+            //        mRandomImage,
+            //        mAboutInput.getEditText().getText().toString().trim(),
+            //        reunionDate,
+            //        mStartInput.getEditText().getText().toString().trim(),
+            //        mEndInput.getEditText().getText().toString().trim(),
+            //        //String.valueOf(spinner.getSelectedItem()),
+            //        mSpinner.getSelectedItem().toString().trim(),
+            //        mParticipantsInput.getEditText().getText().toString().trim()
+            //);
+            //mApiService.createReunion(reunion);
+            //Toasty.success(this, "Réunion enregistrée", Toast.LENGTH_SHORT).show();
+            //finish();
         }
     }
 
@@ -302,4 +325,9 @@ public class AddReunionActivity extends AppCompatActivity
         Intent i = new Intent(listReunionActivity, AddReunionActivity.class);
         ActivityCompat.startActivity(listReunionActivity, i, null);
     }
+
+    //public void warningBox(Reunion reunion){
+    //    WarningDialog warningDialog = new WarningDialog(reunion);
+    //    warningDialog.show(getSupportFragmentManager(), "warning box");
+    //}
 }

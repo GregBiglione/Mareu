@@ -16,6 +16,7 @@
     <string name="end_date">Date de Fin</string>
     <string name="cancel">Annuler</string>
     <string name="ok">Ok</string>
+    <string name="warning_title">Cette salle est déjà réservée pour le jour et les heures choisies</string>
 
     <string-array name="room_array">
         <item>Salle Bélier</item>

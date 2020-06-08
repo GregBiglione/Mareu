@@ -37,19 +37,32 @@
         <item name="android:layout_marginStart">5dp</item>
     </style>
 
-    <!--<style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+    <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
-        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveBtnStyle</item>
     </style>
 
-    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+    <style name="PositiveBtnStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:layout_marginLeft">20dp</item>
         <item name="android:layout_marginRight">5dp</item>
     </style>
 
     <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:layout_marginLeft">5dp</item>
-    </style>-->
+    </style>
 
+    <style name="ThemeOverlay_MaterialComponents_MaterialAlertDialog_Background"
+        parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <!-- Background Color-->
+        <item name="android:background">@color/warningBkg</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="warning_title_style">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginLeft">10dp</item>
+    </style>
 
 </resources>
