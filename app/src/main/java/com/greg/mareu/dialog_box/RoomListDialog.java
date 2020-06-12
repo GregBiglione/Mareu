@@ -68,17 +68,6 @@ public class RoomListDialog extends AppCompatDialogFragment {
                 dismiss();
             }
         });
-                //.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                //    @Override
-                //    public void onClick(DialogInterface dialog, int which) {
-                //        String pickedRoom = mSpinnerDialog.getSelectedItem().toString().trim();
-                //        EventBus.getDefault().post(new FilterByRoomEvent(pickedRoom));
-                //    }
-                //})
-                //.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
-                //    @Override
-                //    public void onClick(DialogInterface dialog, int which) {}
-                //})
         mBuilder.setView(view);
         return mBuilder.create();
     }

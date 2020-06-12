@@ -8,6 +8,7 @@
     <string name="main_menu">Main menu</string>
     <string name="by_date">Par date</string>
     <string name="by_room">Par salle</string>
+    <string name="by_all">Toutes</string>
     <string name="a">à</string>
     <string name="start_hour">Heure de Début</string>
     <string name="end_hour">Heure de Fin</string>

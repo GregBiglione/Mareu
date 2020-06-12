@@ -112,6 +112,9 @@ public class ListReunionActivity extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
+            case R.id.by_all:
+                initList();
+                break;
             case R.id.by_room:
                 RoomListDialog roomListDialog = new RoomListDialog();
                 roomListDialog.show(getSupportFragmentManager(), "room dialog box");

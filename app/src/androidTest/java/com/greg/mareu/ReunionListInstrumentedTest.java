@@ -28,10 +28,12 @@ import static androidx.test.espresso.action.ViewActions.doubleClick;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.contrib.PickerActions.setTime;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static androidx.test.espresso.matcher.ViewMatchers.hasFocus;
 import static androidx.test.espresso.matcher.ViewMatchers.hasMinimumChildCount;
+import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withChild;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
@@ -145,13 +147,13 @@ public class ReunionListInstrumentedTest {
         onView(withId(R.id.addStartTimeEdit))
                 .perform(scrollTo(), doubleClick());
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
-                .perform(PickerActions.setTime(13, 45)); // met 8h45 par défaut
+                .perform(setTime(13, 45)); // met 8h45 par défaut
         onView(withId(android.R.id.button1))
                 .perform(click());
         onView(withId(R.id.addEndTimeEdit))
                 .perform(scrollTo(),doubleClick());
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
-                .perform(PickerActions.setTime(17, 45)); //met 8h45 par défaut
+                .perform(setTime(17, 45)); //met 8h45 par défaut
         onView(withId(android.R.id.button1))
                 .perform(click());
         onView(withId(R.id.spinnerRoom))
@@ -198,32 +200,41 @@ public class ReunionListInstrumentedTest {
     //heures choisies non sélectionnées
     @Test //FAIL EN INDIV
     public void check_ErrorMessage_ifEndHour_isLowerThan_startHour(){
+        int startHour = 15;
+        int statMinute = 50;
         addReunion();
         onView(withId(R.id.addAbout))
                 .perform(typeText("Miaou"), closeSoftKeyboard());
         onView(allOf(withId(R.id.addDateEdit)))
-                .perform(doubleClick()); //ok jusqu'ici
+                .perform(doubleClick());
         onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
                 .perform(PickerActions.setDate(2020, 12, 17));
         onView(withId(android.R.id.button1))
                 .perform(click());
         onView(withId(R.id.addStartTimeEdit))
                 .perform(scrollTo(), doubleClick());
-        onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
-                .perform(PickerActions.setTime(15, 50));
+        //onView(allOf(withId(R.id.addStartHourLyt), withChild(withId(R.id.addStartTimeEdit)))).perform(click());
+        //onView(isAssignableFrom(TimePicker.class)).perform(setTime(15, 50));
+
+        //onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
+        //        .perform(PickerActions.setTime(startHour, statMinute));
+
+        //onView(withId(R.id.addStartTimeEdit))
+        //        .perform(typeText("15h50"));
+
         onView(withId(android.R.id.button1))
                 .perform(click());
         onView(withId(R.id.addEndTimeEdit))
                 .perform(scrollTo(),doubleClick());
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
-                .perform(PickerActions.setTime(11, 42));
-        //try {
-        //    Thread.sleep(5000);
-        //} catch (InterruptedException e) {
-        //    e.printStackTrace();
-        //}
+                .perform(setTime(11, 42));
         onView(withId(android.R.id.button1))
                 .perform(click());
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.spinnerRoom))
                 .perform(scrollTo(), click());
 
@@ -276,13 +287,13 @@ public class ReunionListInstrumentedTest {
         onView(withId(R.id.addStartTimeEdit))
                 .perform(scrollTo(), doubleClick());
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
-                .perform(PickerActions.setTime(13, 45)); // met 8h45 par défaut
+                .perform(setTime(13, 45)); // met 8h45 par défaut
         onView(withId(android.R.id.button1))
                 .perform(click());
         onView(withId(R.id.addEndTimeEdit))
                 .perform(scrollTo(),doubleClick());
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
-                .perform(PickerActions.setTime(17, 45)); //met 8h45 par défaut
+                .perform(setTime(17, 45)); //met 8h45 par défaut
         onView(withId(android.R.id.button1))
                 .perform(click());
         onView(withId(R.id.spinnerRoom))
@@ -327,7 +338,7 @@ public class ReunionListInstrumentedTest {
 
         //HourPicker shown, need to define a beginning hour
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
-                .perform(PickerActions.setTime(13, 45)); // met 8h45 par défaut
+                .perform(setTime(13, 45)); // met 8h45 par défaut
 
         //Click on "ok" button in the TimePicker
         onView(withId(android.R.id.button1))
@@ -339,7 +350,7 @@ public class ReunionListInstrumentedTest {
 
         //HourPicker shown, need to define a finish hour
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
-                .perform(PickerActions.setTime(17, 45)); //met 8h45 par défaut
+                .perform(setTime(17, 45)); //met 8h45 par défaut
 
         //Click on "ok" button in the TimePicker
         onView(withId(android.R.id.button1))
@@ -421,7 +432,7 @@ public class ReunionListInstrumentedTest {
     }
 
     @Test //Ok
-    public void  checkFilterByRoom_isDisplayed() {
+    public void checkFilterByRoom_isDisplayed() {
         onView(withId(R.id.main_menu))
                 .perform(click());
         onView(withText("Par salle"))
@@ -436,6 +447,43 @@ public class ReunionListInstrumentedTest {
                 .perform(click());
         onView(withId(R.id.recycler_view))
                 .check(matches(isDisplayed()));
+    }
+
+    @Test //ok
+    public void checkFullList_clickingOnAll_inMenu(){
+        onView(withId(R.id.main_menu))
+                .perform(click());
+        onView(withText("Toutes"))
+                .perform(click());
+        onView(withId(R.id.recycler_view))
+                .check(matches(isDisplayed()));
+    }
+
+    @Test //                                              TEST TIME PICKER PROBLEM
+    public void problemWithHouTest() {
+        int startHour = 15;
+        int statMinute = 50;
+        addReunion();
+        onView(withId(R.id.addAbout))
+                .perform(typeText("Miaou"), closeSoftKeyboard());
+        onView(allOf(withId(R.id.addDateEdit)))
+                .perform(doubleClick());
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
+                .perform(PickerActions.setDate(2020, 12, 17));
+        onView(withId(android.R.id.button1))
+                .perform(click());
+        onView(withId(R.id.addStartTimeEdit))
+                .perform(scrollTo(), doubleClick());
+        //onView(isAssignableFrom(TimePicker.class)).perform(setTime(15, 50));
+        onView(isAssignableFrom(TimePicker.class)).perform(setTime(startHour, statMinute));
+        onView(withId(android.R.id.button1))
+                .perform(click());
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

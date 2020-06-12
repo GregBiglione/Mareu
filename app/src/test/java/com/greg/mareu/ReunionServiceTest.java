@@ -78,17 +78,4 @@ public class ReunionServiceTest {
         assertThat(expectedReunionsByRoom.size(), is(1));
         assertTrue(expectedReunionsByRoom.contains(reunionByRoom));
     }
-
-    //@Test
-    //public void reunionsByRoom(){
-    //    List<Reunion> actualReunionsByRoom = service.getReunions();
-    //    Reunion reunionByRoom1 = actualReunionsByRoom.get(0);
-    //    Reunion reunionByRoom2 = actualReunionsByRoom.get(11);
-    //    Reunion reunionByRoom3 = actualReunionsByRoom.get(14);
-    //    List<Reunion> expectedReunionsByRoom = service.getReunionByRoom("Salle Lion");
-    //    assertThat(expectedReunionsByRoom.size(), is(3));
-    //    assertTrue(expectedReunionsByRoom.contains(reunionByRoom1));
-    //    assertTrue(expectedReunionsByRoom.contains(reunionByRoom2));
-    //    assertTrue(expectedReunionsByRoom.contains(reunionByRoom3));
-    //}
 }

@@ -39,8 +39,7 @@ public class Pick
                 String pickedDate = simpleDateFormat.format(cPicked.getTime());
 
                 //Comparer les dates et interdire les dates dans le passé
-                String getSimpleToday = simpleDateFormat.format(c.getTime());
-                if (pickedDate.compareTo(getSimpleToday) < 0)
+                if (cPicked.before(c))
                 {
                     mDayEditText.setError("Impossible de choisir une date antérieure à aujourd'hui");
                 }
