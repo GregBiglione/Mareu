@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.greg.mareu.R;
-import com.greg.mareu.model.Reunion;
 
 import butterknife.BindView;
 
@@ -24,8 +23,7 @@ public class WarningDialog extends AppCompatDialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),
-                R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Background);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_warning, null);
         builder.setView(view);

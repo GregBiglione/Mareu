@@ -253,19 +253,24 @@ public class AddReunionActivity extends AppCompatActivity
             }
             else
             {
-                Reunion reunion = new Reunion(
-                        System.currentTimeMillis(),
-                        mRandomImage,
-                        mAboutInput.getEditText().getText().toString().trim(),
-                        reunionDate,
-                        startHourSelected ,
-                        endHourSelected,
-                        selectedRoom,
-                        mParticipantsInput.getEditText().getText().toString().trim()
-                );
-                mApiService.createReunion(reunion);
-                Toasty.success(this, "Réunion enregistrée", Toast.LENGTH_SHORT).show();
-                finish();
+                if (!(mAboutEditText.length() < 3 || mAboutEditText.length() > 30) && !(mDayEditText.length() == 0)
+                        && !(mStartHourEditText.length() == 0) && !(mEndHourEditText.length() == 0)
+                        && !(endHourSelected.compareTo(startHourSelected) <= 0))
+                {
+                    Reunion reunion = new Reunion(
+                            System.currentTimeMillis(),
+                            mRandomImage,
+                            mAboutInput.getEditText().getText().toString().trim(),
+                            reunionDate,
+                            startHourSelected ,
+                            endHourSelected,
+                            selectedRoom,
+                            mParticipantsInput.getEditText().getText().toString().trim()
+                    );
+                    mApiService.createReunion(reunion);
+                    Toasty.success(this, "Réunion enregistrée", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
         }
     }
