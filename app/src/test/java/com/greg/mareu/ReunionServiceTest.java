@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -45,12 +46,25 @@ public class ReunionServiceTest {
         assertFalse(service.getReunions().contains(reunionToDelete));
     }
 
+    public static Date setReunionDate(int year, int month, int day){
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, day);
+        c.set(Calendar.HOUR, -12);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+
+        return c.getTime();
+    }
+
     @Test
     public void addReunionWithSuccess(){
+
         long id = 16;
         String reunionAvatar = "https://placeimg.com/640/480/any" + System.currentTimeMillis();
         String aboutReunion = "Miaou";
-        Date day = new Date(154, 6, 7);
+        Date day = setReunionDate(2054, 11, 19);
         String startTime = "13h44";
         String endTime = "13h44";
         String room = "Salle Lion";
@@ -62,10 +76,10 @@ public class ReunionServiceTest {
 
     @Test
     public void reunionByDates(){
-        List<Reunion> actualReunionsByDate = service.getReunions();
-        Reunion reunionByDate = actualReunionsByDate.get(14);
-        List<Reunion> expectedReunionByDate = service.getReunionByDate(new Date(120, 7, 15),
-                new Date(120, 7, 22));
+        List<Reunion> actualReunionByDate = service.getReunions();
+        Reunion reunionByDate = actualReunionByDate.get(13);
+        List<Reunion> expectedReunionByDate = service.getReunionByDate(setReunionDate(2020, 8, 8),
+                setReunionDate(2020, 8, 11));
         assertThat(expectedReunionByDate.size(), is(1));
         assertTrue(expectedReunionByDate.contains(reunionByDate));
     }

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".reunion_list.AddReunionActivity">
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="150dp"
+        android:layout_marginEnd="150dp">
+
+        <LinearLayout
+            android:id="@+id/main_scroll_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/addImage"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="40dp"
+                android:layout_gravity="center_horizontal"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/addAboutLyt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/addAbout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/about"
+                    android:inputType="text"
+                    android:drawableStart="@drawable/ic_create_black_24dp"
+                    android:nextFocusDown="@id/addDateEdit"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/addDayLyt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/addDateEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/date"
+                    android:inputType="date"
+                    android:drawableStart="@drawable/ic_date_range_black_24dp"
+                    android:nextFocusDown="@id/addStartTimeEdit"
+                    android:cursorVisible="false"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/mainHourLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="0dp"
+                   android:orientation="horizontal"
+                   android:layout_weight="1">
+
+                   <com.google.android.material.textfield.TextInputLayout
+                       android:id="@+id/addStartHourLyt"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="20dp"
+                       android:layout_weight="0.5"
+                       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                       <com.google.android.material.textfield.TextInputEditText
+                           android:id="@+id/addStartTimeEdit"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:hint="@string/start_hour"
+                           android:inputType="time"
+                           android:drawableStart="@drawable/ic_hour_black_24dp"
+                           style="@style/ml"
+                           android:nextFocusDown="@id/addEndTimeEdit"
+                           android:cursorVisible="false"/>
+
+                   </com.google.android.material.textfield.TextInputLayout>
+
+                   <com.google.android.material.textfield.TextInputLayout
+                       android:id="@+id/addEndHourLyt"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="20dp"
+                       android:layout_weight="0.5"
+                       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                       <com.google.android.material.textfield.TextInputEditText
+                           android:id="@+id/addEndTimeEdit"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:hint="@string/end_hour"
+                           android:inputType="time"
+                           android:drawableStart="@drawable/ic_hour_black_24dp"
+                           style="@style/mr"
+                           android:nextFocusDown="@+id/spinnerRoom"
+                           android:cursorVisible="false"/>
+
+                   </com.google.android.material.textfield.TextInputLayout>
+               </LinearLayout>
+
+            </LinearLayout>
+
+                <Spinner
+                    android:id="@+id/spinnerRoom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:nextFocusDown="@id/addParticipantsEdit"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/addParticipantsLyt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/addParticipantsEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/participants"
+                    android:inputType="textEmailAddress"
+                    android:minLines="1"
+                    android:maxLines="20"
+                    android:drawableStart="@drawable/ic_group_add_black_24dp"
+                    android:drawablePadding="5dp"
+                    android:nextFocusDown="@id/create"
+                    android:cursorVisible="false"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/create"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center_horizontal"
+                android:enabled="false"
+                android:hint="@string/save"
+                android:textSize="18sp"
+                app:cornerRadius="20dp"
+                android:textColor="@color/white"
+                style="@style/Widget.MaterialComponents.Button"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

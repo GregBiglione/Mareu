@@ -101,13 +101,13 @@ public class ReunionListInstrumentedTest {
         onView(withId(R.id.addStartTimeEdit))
                 .perform(scrollTo(), doubleClick());
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
-                .perform(setTime(13, 30)); // met 8h45 par défaut
+                .perform(setTime(13, 30));
         onView(withId(android.R.id.button1))
                 .perform(click());
         onView(withId(R.id.addEndTimeEdit))
                 .perform(scrollTo(),doubleClick());
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
-                .perform(setTime(17, 55)); //met 8h45 par défaut
+                .perform(setTime(17, 55));
         onView(withId(android.R.id.button1))
                 .perform(click());
         onView(withId(R.id.spinnerRoom))
@@ -136,7 +136,7 @@ public class ReunionListInstrumentedTest {
         onView(withId(R.id.addAbout))
                 .perform(typeText("F"), closeSoftKeyboard());
         onView(withId(R.id.create))
-                .perform(click());
+                .perform(scrollTo(), click());
         onView(withId(R.id.addAbout))
                 .check(matches(hasErrorText("Entrer un titre (3-30 caratères)")));
     }
@@ -149,7 +149,7 @@ public class ReunionListInstrumentedTest {
         onView(withId(R.id.addAbout))
                 .perform(typeText("abcdefghijklmnopqrstuvwxyzazertyui"), closeSoftKeyboard());
         onView(withId(R.id.create))
-                .perform(click());
+                .perform(scrollTo(), click());
         onView(withId(R.id.addAbout))
                 .check(matches(hasErrorText("Entrer un titre (3-30 caratères)")));
     }
@@ -203,7 +203,7 @@ public class ReunionListInstrumentedTest {
         onView(withText("Ok"))
                 .perform(click());
         onView(withId(R.id.create))
-                .perform(click());
+                .perform(scrollTo(), click());
         onView(withId(R.id.addDateEdit))
                 .check(matches(hasErrorText("Sélectionner une date")));
     }
@@ -252,24 +252,11 @@ public class ReunionListInstrumentedTest {
         onView(withId(R.id.addEndTimeEdit))
                 .perform(doubleClick());
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
-                .perform(setTime(21, 00));
+                .perform(setTime(15, 00));
         onView(withId(android.R.id.button1))
                 .perform(click());
-        onView(withId(R.id.spinnerRoom))
-                .perform(click());
-        onData(allOf(is(instanceOf(String.class))))
-                .atPosition(4) //inRoot ?
-                .perform(click());
-        onView(withId(R.id.addParticipantsEdit))
-                .perform(doubleClick());
-        onData(anything()).atPosition(2).atPosition(5).atPosition(9)
-                .perform(click());
-        onView(withText("Ok"))
-                .perform(click());
-        onView(withId(R.id.create))
-                .perform(click());
         onView(withId(R.id.addEndTimeEdit))
-                .check(matches(hasErrorText("Sélectionner une heure de fin")));
+                .check(matches(hasErrorText("Heure de fin incorrecte")));
     }
 
     @Test
@@ -343,7 +330,7 @@ public class ReunionListInstrumentedTest {
         onView(withId(R.id.main_menu))
                 .perform(click());
         onView(withText("Par salle"))
-                .perform(click()); //test fail alors que le clic se fait
+                .perform(click());
         onView(withId(R.id.dialogRoomSpinner))
                 .perform(click());
         onData(allOf(is(instanceOf(String.class))))

@@ -5,10 +5,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.greg.mareu.R;
 import com.greg.mareu.di.DI;
@@ -46,6 +48,19 @@ public class ListReunionActivity extends AppCompatActivity{
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         initList();
+
+        if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE) {
+            Toast.makeText(this, "Large screen", Toast.LENGTH_LONG).show();
+        }
+        else if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_NORMAL) {
+            Toast.makeText(this, "Normal sized screen", Toast.LENGTH_LONG).show();
+        }
+        else if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_SMALL) {
+            Toast.makeText(this, "Small sized screen", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(this, "Screen size is neither large, normal or small", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

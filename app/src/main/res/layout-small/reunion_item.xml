@@ -7,12 +7,12 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/reunion_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginStart="16dp"/>
+        android:layout_marginStart="10dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -20,9 +20,9 @@
         android:orientation="vertical"
         android:layout_centerVertical="true"
         android:layout_alignStart="@id/reunion_image"
-        android:layout_marginStart="60dp"
+        android:layout_marginStart="40dp"
         android:layout_alignEnd="@id/delete_button"
-        android:layout_marginEnd="30dp">
+        android:layout_marginEnd="20dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
                 android:id="@+id/reunion_about"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/line_one"
+                style="@style/s_line_one"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:layout_weight="0.1"
@@ -44,14 +44,14 @@
                 android:id="@+id/dash_one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/dash_style_line_one"
+                style="@style/s_dash_style_line_one"
                 android:text="@string/dash"/>
 
             <TextView
                 android:id="@+id/reunion_room"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/line_one"
+                style="@style/s_line_one"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:layout_weight="0.9"/>
@@ -66,33 +66,37 @@
             <TextView
                 android:id="@+id/reunion_day"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                style="@style/s_style_line_two"/>
 
             <TextView
                 android:id="@+id/dash_two"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/dash"
-                style="@style/dash_style_line_two"/>
+                style="@style/s_dash_style_line_two"/>
 
             <TextView
                 android:id="@+id/startReunion"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                style="@style/s_style_line_two"/>
 
             <TextView
                 android:id="@+id/a"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/a"
-                style="@style/dash_style_line_two"/>
+                style="@style/s_dash_style_line_two"/>
 
             <TextView
                 android:id="@+id/endReunion"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                style="@style/s_style_line_two"/>
 
         </LinearLayout>
+
 
     </LinearLayout>
 
@@ -104,6 +108,6 @@
         android:layout_centerVertical="true"
         android:background="@null"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/ic_delete_black_24dp" />
+        android:src="@drawable/ic_delete_black_15dp" />
 
 </RelativeLayout>

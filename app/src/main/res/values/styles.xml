@@ -8,6 +8,34 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--///////////////////////////////        S STYLE        /////////////////////////////////////////////-->
+
+    <style name="s_dash_style_line_one">
+        <item name="android:textSize">13dp</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+    </style>
+
+    <style name="s_line_one">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="s_dash_style_line_two">
+        <item name="android:textSize">11sp</item>
+        <item name="android:layout_marginRight">2dp</item>
+        <item name="android:layout_marginLeft">2dp</item>
+    </style>
+
+    <style name="s_style_line_two">
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <!--///////////////////////////////        N STYLE        /////////////////////////////////////////////-->
+
     <style name="dash_style_line_one">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/colorAccent</item>
@@ -53,9 +81,10 @@
 
     <style name="warning_title_style">
         <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">18dp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginLeft">10dp</item>
     </style>
 
 </resources>
+

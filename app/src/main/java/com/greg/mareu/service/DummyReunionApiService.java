@@ -61,7 +61,8 @@ public class DummyReunionApiService implements ReunionApiService
         {
             if (r.getDay().equals(dayPicked) && r.getRoom().equals(roomPicked) &&
                     ((r.getStartTime().compareTo(startHour) >= 0 && r.getStartTime().compareTo(endHour) <= 0)
-                    || (r.getEndTime().compareTo(startHour) >= 0 && r.getEndTime().compareTo(endHour) <= 0)))
+                    || (r.getEndTime().compareTo(startHour) >= 0 && r.getEndTime().compareTo(endHour) <= 0))
+            || (r.getStartTime().compareTo(startHour) <= 0 && (r.getEndTime().compareTo(startHour) >= 0)))
             {
                 return true;
             }
