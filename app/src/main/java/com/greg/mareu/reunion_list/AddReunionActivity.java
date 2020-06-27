@@ -46,10 +46,10 @@ public class AddReunionActivity extends AppCompatActivity
     @BindView(R.id.addAbout) TextInputEditText mAboutEditText;
 
     @BindView(R.id.addDayLyt) TextInputLayout mDayInput;
-    @BindView(R.id.addDateEdit) TextInputEditText mDayEditText; // à suppr si appel à mPick.pickDate();
+    @BindView(R.id.addDateEdit) TextInputEditText mDayEditText;
 
     @BindView(R.id.addStartHourLyt) TextInputLayout mStartInput;
-    @BindView(R.id.addStartTimeEdit) TextInputEditText mStartHourEditText; // à suppr si appel à mPick.pickHour();
+    @BindView(R.id.addStartTimeEdit) TextInputEditText mStartHourEditText;
     @BindView(R.id.addEndHourLyt) TextInputLayout mEndInput;
     @BindView(R.id.addEndTimeEdit) TextInputEditText mEndHourEditText;
 
@@ -219,30 +219,36 @@ public class AddReunionActivity extends AppCompatActivity
         String endHourSelected = mEndInput.getEditText().getText().toString().trim();
         String selectedRoom =  mSpinner.getSelectedItem().toString().trim();
 
+        boolean isValid = true;
         if (mAboutEditText.length() < 3 || mAboutEditText.length() > 30)
         {
             mAboutEditText.setError("Entrer un titre (3-30 caratères)");
             mAboutEditText.requestFocus();
+            isValid = false;
         }
         if (mDayEditText.length() == 0)
         {
             mDayEditText.setError("Sélectionner une date");
             mDayEditText.requestFocus();
+            isValid = false;
         }
         if (mStartHourEditText.length() == 0)
         {
             mStartHourEditText.setError("Sélectionner une heure de début");
             mStartHourEditText.requestFocus();
+            isValid = false;
         }
         if (mEndHourEditText.length() == 0)
         {
             mEndHourEditText.setError("Sélectionner une heure de fin");
             mEndHourEditText.requestFocus();
+            isValid = false;
         }
         if(mParticipantsEditText.length() == 0) //modifier si position 0 dans le spinner renvoyer setError
         {
             mParticipantsEditText.setError("Sélectionner au moins 1 participant");
             mParticipantsEditText.requestFocus();
+            isValid = false;
         }
         else{
 
@@ -253,9 +259,7 @@ public class AddReunionActivity extends AppCompatActivity
             }
             else
             {
-                if (!(mAboutEditText.length() < 3 || mAboutEditText.length() > 30) && !(mDayEditText.length() == 0)
-                        && !(mStartHourEditText.length() == 0) && !(mEndHourEditText.length() == 0)
-                        && !(endHourSelected.compareTo(startHourSelected) <= 0))
+                if (isValid)
                 {
                     Reunion reunion = new Reunion(
                             System.currentTimeMillis(),

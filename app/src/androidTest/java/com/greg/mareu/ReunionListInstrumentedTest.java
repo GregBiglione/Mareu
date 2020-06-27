@@ -101,7 +101,7 @@ public class ReunionListInstrumentedTest {
         onView(withId(R.id.addStartTimeEdit))
                 .perform(scrollTo(), doubleClick());
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName())))
-                .perform(setTime(13, 30));
+                .perform(setTime(13, 45));
         onView(withId(android.R.id.button1))
                 .perform(click());
         onView(withId(R.id.addEndTimeEdit))
