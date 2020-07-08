@@ -23,10 +23,15 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.greg.mareu.R;
 import com.greg.mareu.di.DI;
+import com.greg.mareu.dialog_box.ParticipantsCheckBox;
 import com.greg.mareu.dialog_box.WarningDialog;
+import com.greg.mareu.events.SetParticipantEvent;
 import com.greg.mareu.model.Reunion;
 import com.greg.mareu.picker.Pick;
 import com.greg.mareu.service.ReunionApiService;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -63,13 +68,8 @@ public class AddReunionActivity extends AppCompatActivity
     private ReunionApiService mApiService;
     private Pick mPick;
 
-    String[] listOfParticipants;
-    boolean[] checkedParticipants;
-    ArrayList<Integer> mUserParticipants = new ArrayList<>();
-
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_reunion);
         mApiService = DI.getReunionApiService();
@@ -80,8 +80,7 @@ public class AddReunionActivity extends AppCompatActivity
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                if(!hasFocus)
-                {
+                if(!hasFocus) {
                     imm.hideSoftInputFromWindow(mAboutEditText.getWindowToken(), 0);
                 }
             }
@@ -97,98 +96,39 @@ public class AddReunionActivity extends AppCompatActivity
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        mDayEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               Pick.pickDate(mDayEditText, AddReunionActivity.this);
-            }
-        });
-        mDayEditText.setKeyListener(null);
+        dayAndHour();
 
-       mStartHourEditText.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               Pick.pickHour(mStartHourEditText, mEndHourEditText ,AddReunionActivity.this);
-           }
-       });
-        mStartHourEditText.setKeyListener(null);
-
-        mEndHourEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Pick.pickHour(mStartHourEditText, mEndHourEditText, AddReunionActivity.this);
-            }
-        });
-        mEndHourEditText.setKeyListener(null);
-
-       listOfParticipants = getResources().getStringArray(R.array.participants_array);
-       checkedParticipants = new boolean[listOfParticipants.length];
        mParticipantsEditText.setOnClickListener(new View.OnClickListener() {
            @Override
-           public void onClick(View v)
-           {
-               AlertDialog.Builder mBuilder = new AlertDialog.Builder(AddReunionActivity.this);
-               mBuilder.setTitle("Liste des participants");
-               mBuilder.setMultiChoiceItems(listOfParticipants, checkedParticipants, new DialogInterface.OnMultiChoiceClickListener() {
-                   @Override
-                   public void onClick(DialogInterface dialog, int position, boolean isChecked)
-                   {
-                        if (isChecked){
-                            if (!mUserParticipants.contains(position))
-                            {
-                                mUserParticipants.add(position);
-                            }
-                        }
-                        else if(mUserParticipants.contains(position))
-                        {
-                            mUserParticipants.remove(mUserParticipants.indexOf(position));
-                        }
-                   }
-               });
-
-               mBuilder.setCancelable(false);
-               mBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                   @Override
-                   public void onClick(DialogInterface dialog, int which) {
-                       String item = "";
-                       for (int i = 0; i< mUserParticipants.size(); i++)
-                       {
-                            item = item + listOfParticipants[mUserParticipants.get(i)];
-                            if (i != mUserParticipants.size() - 1)
-                            {
-                                item = item + ", ";
-                            }
-                       }
-                       mParticipantsEditText.setText(item);
-                   }
-               });
-
-               mBuilder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
-                   @Override
-                   public void onClick(DialogInterface dialog, int which)
-                   {
-                        dialog.dismiss();
-                   }
-               });
-               mBuilder.setNeutralButton("Tout effacer", new DialogInterface.OnClickListener() {
-                   @Override
-                   public void onClick(DialogInterface dialog, int which) {
-                        for(int i =0; i < checkedParticipants.length; i++)
-                        {
-                            checkedParticipants[i] = false;
-                            mUserParticipants.clear();
-                            mParticipantsEditText.setText("");
-                        }
-                   }
-               });
-               AlertDialog mAlertDialog = mBuilder.create();
-               mAlertDialog.show();
+           public void onClick(View v) {
+               OpenSetParticipantsChecked();
            }
        });
        mParticipantsEditText.setKeyListener(null);
+       mApiService = DI.getReunionApiService();
+       init();
+    }
 
-        mApiService = DI.getReunionApiService();
-        init();
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onSetParticipants(SetParticipantEvent event){
+        mParticipantsEditText.setText(event.item);
+    }
+
+    public void OpenSetParticipantsChecked(){
+        ParticipantsCheckBox participantsCheckBox = new ParticipantsCheckBox();
+        participantsCheckBox.show(getSupportFragmentManager(), "participants check box");
     }
 
     public void init() {
@@ -206,7 +146,6 @@ public class AddReunionActivity extends AppCompatActivity
 
     @OnClick(R.id.create)
     void addReunion(View view){
-
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date reunionDate = null;
         try {
@@ -220,47 +159,13 @@ public class AddReunionActivity extends AppCompatActivity
         String selectedRoom =  mSpinner.getSelectedItem().toString().trim();
 
         boolean isValid = true;
-        if (mAboutEditText.length() < 3 || mAboutEditText.length() > 30)
-        {
-            mAboutEditText.setError("Entrer un titre (3-30 caratères)");
-            mAboutEditText.requestFocus();
-            isValid = false;
-        }
-        if (mDayEditText.length() == 0)
-        {
-            mDayEditText.setError("Sélectionner une date");
-            mDayEditText.requestFocus();
-            isValid = false;
-        }
-        if (mStartHourEditText.length() == 0)
-        {
-            mStartHourEditText.setError("Sélectionner une heure de début");
-            mStartHourEditText.requestFocus();
-            isValid = false;
-        }
-        if (mEndHourEditText.length() == 0)
-        {
-            mEndHourEditText.setError("Sélectionner une heure de fin");
-            mEndHourEditText.requestFocus();
-            isValid = false;
-        }
-        if(mParticipantsEditText.length() == 0) //modifier si position 0 dans le spinner renvoyer setError
-        {
-            mParticipantsEditText.setError("Sélectionner au moins 1 participant");
-            mParticipantsEditText.requestFocus();
-            isValid = false;
-        }
-        else{
-
-            if (mApiService.checkMatches(selectedRoom, reunionDate, startHourSelected, endHourSelected))
-            {
+        if (isValid()){
+            if (mApiService.checkMatches(selectedRoom, reunionDate, startHourSelected, endHourSelected)) {
                 WarningDialog warningDialog = new WarningDialog();
                 warningDialog.show(getSupportFragmentManager(), "warning box");
             }
-            else
-            {
-                if (isValid)
-                {
+            else {
+                if (isValid) {
                     Reunion reunion = new Reunion(
                             System.currentTimeMillis(),
                             mRandomImage,
@@ -293,5 +198,66 @@ public class AddReunionActivity extends AppCompatActivity
     public static void navigate(ListReunionActivity listReunionActivity) {
         Intent i = new Intent(listReunionActivity, AddReunionActivity.class);
         ActivityCompat.startActivity(listReunionActivity, i, null);
+    }
+
+    public boolean isValid(){
+        boolean isValid = true;
+        if (mAboutEditText.length() < 3 || mAboutEditText.length() > 30)
+        {
+            mAboutEditText.setError("Entrer un titre (3-30 caratères)");
+            mAboutEditText.requestFocus();
+            isValid = false;
+        }
+        if (mDayEditText.length() == 0)
+        {
+            mDayEditText.setError("Sélectionner une date");
+            mDayEditText.requestFocus();
+            isValid = false;
+        }
+        if (mStartHourEditText.length() == 0)
+        {
+            mStartHourEditText.setError("Sélectionner une heure de début");
+            mStartHourEditText.requestFocus();
+            isValid = false;
+        }
+        if (mEndHourEditText.length() == 0)
+        {
+            mEndHourEditText.setError("Sélectionner une heure de fin");
+            mEndHourEditText.requestFocus();
+            isValid = false;
+        }
+        if(mParticipantsEditText.length() == 0) //modifier si position 0 dans le spinner renvoyer setError
+        {
+            mParticipantsEditText.setError("Sélectionner au moins 1 participant");
+            mParticipantsEditText.requestFocus();
+            isValid = false;
+        }
+        return isValid;
+    }
+
+    public void dayAndHour(){
+        mDayEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Pick.pickDate(mDayEditText, AddReunionActivity.this);
+            }
+        });
+        mDayEditText.setKeyListener(null);
+
+        mStartHourEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Pick.pickHour(mStartHourEditText, mEndHourEditText ,AddReunionActivity.this);
+            }
+        });
+        mStartHourEditText.setKeyListener(null);
+
+        mEndHourEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Pick.pickHour(mStartHourEditText, mEndHourEditText, AddReunionActivity.this);
+            }
+        });
+        mEndHourEditText.setKeyListener(null);
     }
 }
